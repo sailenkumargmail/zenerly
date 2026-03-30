@@ -1168,6 +1168,246 @@ footer {
   .cs-metrics { grid-template-columns: 1fr; }
   .plan-amt { font-size: 2.1rem; }
 }
+
+/* ══════════════════════════════════════
+   CONTACT PAGE
+══════════════════════════════════════ */
+.contact-page {
+  min-height: 100svh;
+  padding-top: var(--nav-h);
+  background: linear-gradient(160deg, #eef7f6 0%, #f7f8fa 55%, #eef2ff 100%);
+}
+
+.contact-hero {
+  padding: clamp(56px,9vw,100px) 0 clamp(40px,6vw,64px);
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.contact-hero::before {
+  content: '';
+  position: absolute; top: -5%; left: 50%; transform: translateX(-50%);
+  width: clamp(300px,70vw,700px); height: clamp(300px,70vw,700px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(13,148,136,0.09) 0%, transparent 65%);
+  pointer-events: none;
+}
+.contact-hero-eyebrow {
+  font-family: var(--ff-mono); font-size: 0.66rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 14px; position: relative;
+}
+.contact-hero h1 {
+  font-family: var(--ff-head);
+  font-size: clamp(2rem,5vw,3.2rem);
+  font-weight: 800; letter-spacing: -0.04em;
+  color: var(--ink); line-height: 1.08; margin-bottom: 14px;
+  position: relative;
+}
+.contact-hero p {
+  font-family: var(--ff-body);
+  font-size: clamp(0.92rem,1.5vw,1.04rem);
+  color: var(--ink-3); max-width: 440px;
+  margin: 0 auto; line-height: 1.75; position: relative;
+}
+
+/* Contact body grid */
+.contact-body {
+  padding: 0 0 clamp(64px,8vw,96px);
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.55fr;
+  gap: clamp(32px,5vw,72px);
+  align-items: start;
+}
+
+/* Left info panel */
+.contact-info-panel {
+  display: flex; flex-direction: column; gap: 24px;
+}
+.contact-info-card {
+  background: var(--card);
+  border: 1px solid var(--edge);
+  border-radius: var(--r-lg);
+  padding: clamp(20px,3vw,28px);
+  box-shadow: var(--shadow-sm);
+}
+.contact-info-card-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 14px;
+}
+.cic-icon {
+  width: 40px; height: 40px; border-radius: 11px;
+  background: var(--teal-dim); border: 1px solid var(--teal-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.cic-title {
+  font-family: var(--ff-head); font-size: 0.92rem;
+  font-weight: 700; color: var(--ink); letter-spacing: -0.02em;
+}
+.cic-body {
+  font-family: var(--ff-body); font-size: 0.85rem;
+  color: var(--ink-3); line-height: 1.7;
+}
+.cic-link {
+  font-family: var(--ff-mono); font-size: 0.78rem;
+  color: var(--teal); font-weight: 500;
+  display: inline-block; margin-top: 6px;
+  transition: color 0.18s;
+}
+.cic-link:hover { color: #0b8076; }
+
+.contact-offices {
+  display: flex; flex-direction: column; gap: 11px;
+}
+.office-row {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--ff-body); font-size: 0.84rem; color: var(--ink-3);
+}
+.office-flag { font-size: 1rem; }
+.office-name { color: var(--ink-2); font-weight: 400; }
+
+/* ── Contact Form ── */
+.contact-form-card {
+  background: var(--card);
+  border: 1px solid var(--edge);
+  border-radius: var(--r-xl);
+  padding: clamp(28px,4vw,44px);
+  box-shadow: var(--shadow-md);
+  position: relative; overflow: hidden;
+}
+.contact-form-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--teal), var(--teal-light), var(--indigo));
+}
+
+.cf-title {
+  font-family: var(--ff-head); font-size: clamp(1.2rem,2.5vw,1.5rem);
+  font-weight: 800; letter-spacing: -0.03em; color: var(--ink);
+  margin-bottom: 6px;
+}
+.cf-sub {
+  font-family: var(--ff-body); font-size: 0.88rem;
+  color: var(--ink-3); margin-bottom: 28px; line-height: 1.6;
+}
+
+.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cf-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.cf-group:last-of-type { margin-bottom: 0; }
+
+.cf-label {
+  font-family: var(--ff-mono); font-size: 0.64rem;
+  font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink-2);
+}
+.cf-required { color: #ef4444; margin-left: 2px; }
+
+.cf-input, .cf-select, .cf-textarea {
+  font-family: var(--ff-body); font-size: 0.9rem;
+  color: var(--ink);
+  background: var(--card-alt);
+  border: 1.5px solid var(--edge-md);
+  border-radius: var(--r-md);
+  padding: 11px 14px;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  width: 100%;
+  outline: none;
+}
+.cf-input::placeholder, .cf-textarea::placeholder { color: var(--ink-4); }
+.cf-input:focus, .cf-select:focus, .cf-textarea:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(13,148,136,0.1);
+  background: #fff;
+}
+.cf-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%230d9488' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+  padding-right: 38px; cursor: pointer;
+  background-color: var(--card-alt);
+}
+.cf-textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+
+.cf-checkbox-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin: 18px 0 24px;
+}
+.cf-checkbox {
+  width: 17px; height: 17px; border-radius: 4px;
+  border: 1.5px solid var(--edge-md);
+  background: var(--card-alt);
+  flex-shrink: 0; margin-top: 1px; cursor: pointer;
+  accent-color: var(--teal);
+}
+.cf-consent-text {
+  font-family: var(--ff-body); font-size: 0.8rem;
+  color: var(--ink-3); line-height: 1.5;
+}
+.cf-consent-text a { color: var(--teal); text-decoration: underline; }
+
+.cf-submit {
+  width: 100%; padding: 14px;
+  background: var(--teal); color: #fff;
+  border-radius: 10px; border: none;
+  font-family: var(--ff-head); font-size: 0.92rem; font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.15s, box-shadow 0.18s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.cf-submit:hover {
+  background: #0b8076;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(13,148,136,0.28);
+}
+.cf-submit:disabled {
+  background: var(--ink-4); cursor: not-allowed; transform: none; box-shadow: none;
+}
+
+.cf-spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: none;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Success / error states */
+.cf-toast {
+  display: none;
+  align-items: center; gap: 12px;
+  padding: 14px 18px;
+  border-radius: var(--r-md);
+  font-family: var(--ff-body); font-size: 0.88rem;
+  margin-top: 16px;
+  animation: toastIn 0.35s ease;
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.cf-toast.success {
+  background: #f0fdf4; border: 1px solid #86efac; color: #166534;
+}
+.cf-toast.error {
+  background: #fff1f2; border: 1px solid #fca5a5; color: #991b1b;
+}
+.cf-toast.show { display: flex; }
+.cf-toast-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+/* Responsive contact */
+@media (max-width: 860px) {
+  .contact-grid { grid-template-columns: 1fr; }
+  .contact-info-panel { flex-direction: row; flex-wrap: wrap; }
+  .contact-info-card { flex: 1 1 260px; }
+}
+@media (max-width: 560px) {
+  .cf-row { grid-template-columns: 1fr; }
+  .contact-info-panel { flex-direction: column; }
+}
 </style>
 </head>
 <body>
@@ -1187,11 +1427,12 @@ footer {
     <span class="nav-link" onclick="jumpTo('carestream')">CareStream</span>
     <span class="nav-link" onclick="goPage('pricing')">Pricing</span>
     <span class="nav-link" onclick="jumpTo('why')">Why Zenerly</span>
+    <span class="nav-link" onclick="goPage('contact')">Contact</span>
   </div>
 
   <div class="nav-right">
     <button class="nav-btn-ghost">Sign In</button>
-    <button class="nav-btn-cta">Get a Demo</button>
+    <button class="nav-btn-cta" onclick="goPage('contact')">Get a Demo</button>
     <button class="nav-hamburger" id="hamburger" onclick="toggleDrawer()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -1205,7 +1446,8 @@ footer {
   <span class="drawer-link" onclick="jumpTo('carestream');closeDrawer()">CareStream</span>
   <span class="drawer-link" onclick="goPage('pricing');closeDrawer()">HRMS Pricing</span>
   <span class="drawer-link" onclick="jumpTo('why');closeDrawer()">Why Zenerly</span>
-  <span class="drawer-link drawer-cta">Get a Demo →</span>
+  <span class="drawer-link" onclick="goPage('contact');closeDrawer()">Contact Us</span>
+  <span class="drawer-link drawer-cta" onclick="goPage('contact');closeDrawer()">Get a Demo →</span>
 </div>
 
 <!-- ══════════════════════════════════
@@ -1556,12 +1798,12 @@ footer {
   </section>
 
   <!-- CTA BAND -->
-  <div class="container" id="contact">
+  <div class="container" id="cta-section">
     <div class="cta-band">
       <h2>Ready to simplify your entire operations stack?</h2>
       <p>Get a personalised demo tailored to your industry and geography — in 30 minutes.</p>
       <div class="cta-actions">
-        <button class="btn btn-white btn-lg">Book a Demo <span class="arrow-i">→</span></button>
+        <button class="btn btn-white btn-lg" onclick="goPage('contact')">Book a Demo <span class="arrow-i">→</span></button>
         <button class="btn btn-lg" style="background:rgba(255,255,255,0.15);color:#fff;border:1.5px solid rgba(255,255,255,0.3);" onclick="goPage('pricing')">View HRMS Pricing</button>
       </div>
     </div>
@@ -1595,6 +1837,7 @@ footer {
             <li><a>Careers</a></li>
             <li><a>Press</a></li>
             <li><a>Blog</a></li>
+            <li><a onclick="goPage('contact')" style="color:var(--teal-light);">Contact Us</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -1623,7 +1866,7 @@ footer {
 
   <div class="pricing-hero">
     <div class="container" style="position:relative;z-index:2;">
-      <div class="ph-eyebrow">Zenerly Pricing</div>
+      <div class="ph-eyebrow">HRMS Pricing</div>
       <h1>Transparent pricing,<br><em style="font-family:var(--ff-body);font-style:italic;font-weight:300;color:var(--teal);">everywhere you operate.</em></h1>
       <p>Per active employee, per month. Billed annually. Prices shown in your local currency — no surprises.</p>
 
@@ -1671,20 +1914,21 @@ footer {
             <tr><td>Employee records</td><td>Up to 50</td><td class="hl">Up to 500</td><td>Unlimited</td></tr>
             <tr><td>Payroll — countries</td><td>1</td><td class="hl">Up to 5</td><td>Unlimited</td></tr>
             <tr><td>Leave & attendance</td><td><span class="ck">✓</span></td><td class="hl"><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
-            <tr><td>Performance & OKRs</td><td><span class="xx"><span class="ck">✓</span></span></td><td class="hl"><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
-            <tr><td>Employee Onboarding</td><td><span class="xx"><span class="ck">✓</span></span></td><td class="hl"><span class="ck">✓</span></td><td>Advanced</td></tr>
+            <tr><td>Performance & OKRs</td><td><span class="xx">—</span></td><td class="hl"><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
+            <tr><td>Learning & development</td><td><span class="xx">—</span></td><td class="hl">Basic</td><td>Advanced</td></tr>
             <tr><td>Employee self-service app</td><td><span class="ck">✓</span></td><td class="hl"><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
             <tr class="cat-row"><td colspan="4">CareStream AI</td></tr>
-            <tr><td>AI chat & email assistant</td><td>—</td><td class="hl">—</td><td>Full AI + Custom Models</td></tr>
-            <tr><td>Sentiment analysis</td><td><span class="xx">—</span></td><td class="hl">—</td><td><span class="ck">✓</span></td></tr>
-            <tr><td>Agent assist overlay</td><td><span class="xx">—</span></td><td class="hl">—</td><td><span class="ck">✓</span></td></tr>
+            <tr><td>AI chat & email assistant</td><td>Basic</td><td class="hl">Full AI</td><td>Full AI + Custom Models</td></tr>
+            <tr><td>Sentiment analysis</td><td><span class="xx">—</span></td><td class="hl"><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
+            <tr><td>Agent assist overlay</td><td><span class="xx">—</span></td><td class="hl"><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
+            <tr><td>Multilingual support</td><td>5 languages</td><td class="hl">40+ languages</td><td>40+ languages</td></tr>
             <tr class="cat-row"><td colspan="4">Tax Compliance</td></tr>
-            <tr><td>Compliance module</td><td>—</td><td class="hl">—</td><td>Custom + API</td></tr>
-            <tr><td>Audit trail retention</td><td>—</td><td class="hl">—</td><td>10 years</td></tr>
-            <tr><td>Regulatory alerts</td><td>—</td><td class="hl">—</td><td><span class="ck">✓</span></td></tr>
+            <tr><td>Compliance module</td><td>Single jurisdiction</td><td class="hl">Multi-framework</td><td>Custom + API</td></tr>
+            <tr><td>Audit trail retention</td><td>1 year</td><td class="hl">5 years</td><td>10 years</td></tr>
+            <tr><td>Regulatory alerts</td><td><span class="ck">✓</span></td><td class="hl"><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
             <tr class="cat-row"><td colspan="4">Platform & Security</td></tr>
-            <tr><td>API access</td><td><span class="xx">—</span></td><td class="hl">—</td><td>Full + Webhooks</td></tr>
-            <tr><td>SSO / SAML</td><td><span class="xx">—</span></td><td class="hl">—</td><td><span class="ck">✓</span></td></tr>
+            <tr><td>API access</td><td><span class="xx">—</span></td><td class="hl">Full REST API</td><td>Full + Webhooks</td></tr>
+            <tr><td>SSO / SAML</td><td><span class="xx">—</span></td><td class="hl"><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
             <tr><td>Support</td><td>Email</td><td class="hl">Priority (24hr)</td><td>Dedicated CSM</td></tr>
             <tr><td>SLA</td><td>99.5%</td><td class="hl">99.9%</td><td>99.97%</td></tr>
           </tbody>
@@ -1827,6 +2071,8 @@ const planDefs = [
       'Single country payroll & tax',
       'Leave, attendance & shift management',
       'Employee self-service app',
+      'Basic CareStream AI chat (5 languages)',
+      'Single-jurisdiction tax compliance',
       'Email support · 99.5% SLA',
     ]
   },
@@ -1837,8 +2083,10 @@ const planDefs = [
     features: [
       'Up to 5-country payroll & tax',
       'Performance management & OKR tracking',
-      'Leave, attendance & shift management',
-      'Employee self-service app',
+      'Full CareStream AI — chat, voice & email',
+      'Sentiment analysis & smart escalation',
+      'Multi-framework tax compliance',
+      'SSO / SAML + Full API access',
       'Priority support (24hr) · 99.9% SLA',
     ]
   },
@@ -1895,6 +2143,308 @@ function updatePricing() {
 
 // Initialise pricing on load
 updatePricing();
+
+/* ─── CONTACT FORM ─── */
+// EmailJS — uses the free public API (no server needed)
+// To activate real email delivery:
+// 1. Sign up free at https://www.emailjs.com
+// 2. Create a service (e.g. Gmail) and note your SERVICE_ID
+// 3. Create an email template and note your TEMPLATE_ID
+// 4. Copy your PUBLIC_KEY from Account > API Keys
+// 5. Replace the three placeholders below
+const EJS_SERVICE  = 'YOUR_SERVICE_ID';   // e.g. 'service_abc123'
+const EJS_TEMPLATE = 'YOUR_TEMPLATE_ID';  // e.g. 'template_xyz789'
+const EJS_PUB_KEY  = 'YOUR_PUBLIC_KEY';   // e.g. 'aBcDeFgHiJkLmNoP'
+
+function submitContactForm(e) {
+  e.preventDefault();
+  const form    = document.getElementById('contactForm');
+  const btn     = document.getElementById('cf-submit-btn');
+  const spinner = document.getElementById('cf-spinner');
+  const toastOk = document.getElementById('cf-toast-ok');
+  const toastErr= document.getElementById('cf-toast-err');
+
+  // Basic validation
+  const required = form.querySelectorAll('[required]');
+  let valid = true;
+  required.forEach(f => {
+    f.style.borderColor = '';
+    if (!f.value.trim()) {
+      f.style.borderColor = '#ef4444';
+      f.style.boxShadow   = '0 0 0 3px rgba(239,68,68,0.12)';
+      valid = false;
+    }
+  });
+  if (!document.getElementById('cf-consent').checked) {
+    document.getElementById('cf-consent').style.outline = '2px solid #ef4444';
+    valid = false;
+  }
+  if (!valid) return;
+
+  // Show loading state
+  btn.disabled = true;
+  btn.querySelector('.btn-text').style.display = 'none';
+  spinner.style.display = 'block';
+  toastOk.classList.remove('show');
+  toastErr.classList.remove('show');
+
+  // Build template params matching your EmailJS template variables
+  const params = {
+    to_email:    'sales@zenerly.com',
+    from_name:   document.getElementById('cf-fname').value.trim() + ' ' + document.getElementById('cf-lname').value.trim(),
+    from_email:  document.getElementById('cf-email').value.trim(),
+    company:     document.getElementById('cf-company').value.trim(),
+    phone:       document.getElementById('cf-phone').value.trim() || 'Not provided',
+    interest:    document.getElementById('cf-interest').value,
+    employees:   document.getElementById('cf-employees').value,
+    country:     document.getElementById('cf-country').value.trim(),
+    message:     document.getElementById('cf-message').value.trim(),
+    reply_to:    document.getElementById('cf-email').value.trim(),
+  };
+
+  // Send via EmailJS
+  emailjs.send(EJS_SERVICE, EJS_TEMPLATE, params, EJS_PUB_KEY)
+    .then(() => {
+      btn.disabled = false;
+      btn.querySelector('.btn-text').style.display = '';
+      spinner.style.display = 'none';
+      toastOk.classList.add('show');
+      form.reset();
+    })
+    .catch((err) => {
+      console.error('EmailJS error:', err);
+      btn.disabled = false;
+      btn.querySelector('.btn-text').style.display = '';
+      spinner.style.display = 'none';
+      toastErr.classList.add('show');
+    });
+}
 </script>
-</body>
-</html>
+
+<!-- EmailJS SDK (loads async, no delay to page) -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" async></script>
+<script>
+  window.addEventListener('load', () => {
+    if (typeof emailjs !== 'undefined') {
+      emailjs.init({ publicKey: 'YOUR_PUBLIC_KEY' });
+    }
+  });
+</script>
+
+<!-- ══════════════════════════════════
+     CONTACT PAGE
+══════════════════════════════════════ -->
+<div class="page contact-page" id="page-contact">
+
+  <!-- Hero -->
+  <div class="contact-hero">
+    <div class="container" style="position:relative;z-index:2;">
+      <div class="contact-hero-eyebrow">Get In Touch</div>
+      <h1>Let's talk about<br><em style="font-family:var(--ff-body);font-style:italic;font-weight:300;color:var(--teal);">your business.</em></h1>
+      <p>Whether you're evaluating HRMS, exploring CareStream, or need tax compliance help — our team is ready to build the right solution with you.</p>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="contact-body">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- Left: info cards -->
+        <div class="contact-info-panel">
+
+          <div class="contact-info-card">
+            <div class="contact-info-card-header">
+              <div class="cic-icon">✉️</div>
+              <div class="cic-title">Sales Enquiries</div>
+            </div>
+            <div class="cic-body">Ready to get started or need a custom quote? Reach our sales team directly.</div>
+            <a class="cic-link" href="mailto:sales@zenerly.com">sales@zenerly.com</a>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="contact-info-card-header">
+              <div class="cic-icon">🛠️</div>
+              <div class="cic-title">Technical Support</div>
+            </div>
+            <div class="cic-body">Existing customer? Our support team is available 24/7 for Professional and Enterprise plans.</div>
+            <a class="cic-link" href="mailto:support@zenerly.com">support@zenerly.com</a>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="contact-info-card-header">
+              <div class="cic-icon">🤝</div>
+              <div class="cic-title">Partnerships</div>
+            </div>
+            <div class="cic-body">Interested in becoming a Zenerly partner or reseller? Let's explore the opportunity.</div>
+            <a class="cic-link" href="mailto:partners@zenerly.com">partners@zenerly.com</a>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="contact-info-card-header">
+              <div class="cic-icon">🌏</div>
+              <div class="cic-title">Our Offices</div>
+            </div>
+            <div class="contact-offices">
+              <div class="office-row"><span class="office-flag">🇸🇬</span><span class="office-name">Singapore (HQ)</span></div>
+              <div class="office-row"><span class="office-flag">🇬🇧</span><span class="office-name">London, UK</span></div>
+              <div class="office-row"><span class="office-flag">🇮🇳</span><span class="office-name">Mumbai, India</span></div>
+              <div class="office-row"><span class="office-flag">🇲🇾</span><span class="office-name">Kuala Lumpur, Malaysia</span></div>
+              <div class="office-row"><span class="office-flag">🇦🇪</span><span class="office-name">Dubai, UAE</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: contact form -->
+        <div class="contact-form-card">
+          <div class="cf-title">Send us a message</div>
+          <div class="cf-sub">Fill in the form and our sales team will get back to you within one business day.</div>
+
+          <form id="contactForm" onsubmit="submitContactForm(event)" novalidate>
+
+            <div class="cf-row">
+              <div class="cf-group">
+                <label class="cf-label" for="cf-fname">First Name <span class="cf-required">*</span></label>
+                <input class="cf-input" id="cf-fname" type="text" placeholder="Sarah" required autocomplete="given-name">
+              </div>
+              <div class="cf-group">
+                <label class="cf-label" for="cf-lname">Last Name <span class="cf-required">*</span></label>
+                <input class="cf-input" id="cf-lname" type="text" placeholder="Chen" required autocomplete="family-name">
+              </div>
+            </div>
+
+            <div class="cf-row">
+              <div class="cf-group">
+                <label class="cf-label" for="cf-email">Work Email <span class="cf-required">*</span></label>
+                <input class="cf-input" id="cf-email" type="email" placeholder="sarah@company.com" required autocomplete="email">
+              </div>
+              <div class="cf-group">
+                <label class="cf-label" for="cf-phone">Phone Number</label>
+                <input class="cf-input" id="cf-phone" type="tel" placeholder="+65 9123 4567" autocomplete="tel">
+              </div>
+            </div>
+
+            <div class="cf-group">
+              <label class="cf-label" for="cf-company">Company Name <span class="cf-required">*</span></label>
+              <input class="cf-input" id="cf-company" type="text" placeholder="Meridian Group Pte Ltd" required autocomplete="organization">
+            </div>
+
+            <div class="cf-row">
+              <div class="cf-group">
+                <label class="cf-label" for="cf-interest">I'm Interested In <span class="cf-required">*</span></label>
+                <select class="cf-select" id="cf-interest" required>
+                  <option value="" disabled selected>Select a product…</option>
+                  <option value="HRMS">HRMS — HR Management</option>
+                  <option value="CareStream">CareStream — AI Customer Service</option>
+                  <option value="Tax Compliance">Tax Compliance</option>
+                  <option value="Full Platform">Full Platform (All Products)</option>
+                  <option value="Demo">Request a Live Demo</option>
+                  <option value="Other">Other / General Enquiry</option>
+                </select>
+              </div>
+              <div class="cf-group">
+                <label class="cf-label" for="cf-employees">Company Size <span class="cf-required">*</span></label>
+                <select class="cf-select" id="cf-employees" required>
+                  <option value="" disabled selected>Number of employees…</option>
+                  <option value="1–10">1–10 employees</option>
+                  <option value="11–50">11–50 employees</option>
+                  <option value="51–200">51–200 employees</option>
+                  <option value="201–500">201–500 employees</option>
+                  <option value="501–1000">501–1,000 employees</option>
+                  <option value="1000+">1,000+ employees</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="cf-group">
+              <label class="cf-label" for="cf-country">Country / Region <span class="cf-required">*</span></label>
+              <input class="cf-input" id="cf-country" type="text" placeholder="e.g. Singapore" required autocomplete="country-name">
+            </div>
+
+            <div class="cf-group">
+              <label class="cf-label" for="cf-message">Tell Us About Your Needs <span class="cf-required">*</span></label>
+              <textarea class="cf-textarea" id="cf-message" placeholder="Briefly describe what you're looking to solve, your timeline, and any specific requirements…" required></textarea>
+            </div>
+
+            <div class="cf-checkbox-row">
+              <input class="cf-checkbox" type="checkbox" id="cf-consent" required>
+              <label class="cf-consent-text" for="cf-consent">
+                I agree to Zenerly's <a href="#">Privacy Policy</a> and consent to being contacted about Zenerly's products and services. You can unsubscribe at any time.
+              </label>
+            </div>
+
+            <button class="cf-submit" id="cf-submit-btn" type="submit">
+              <div class="cf-spinner" id="cf-spinner"></div>
+              <span class="btn-text">Send Message to Sales Team →</span>
+            </button>
+
+            <!-- Success toast -->
+            <div class="cf-toast success" id="cf-toast-ok">
+              <span class="cf-toast-icon">✅</span>
+              <div>
+                <strong>Message sent!</strong> Our sales team at sales@zenerly.com will reply within one business day.
+              </div>
+            </div>
+
+            <!-- Error toast -->
+            <div class="cf-toast error" id="cf-toast-err">
+              <span class="cf-toast-icon">⚠️</span>
+              <div>
+                <strong>Something went wrong.</strong> Please try again or email us directly at <a href="mailto:sales@zenerly.com" style="color:#991b1b;text-decoration:underline;">sales@zenerly.com</a>
+              </div>
+            </div>
+
+          </form>
+        </div><!-- /contact-form-card -->
+
+      </div><!-- /contact-grid -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-name">
+            <div class="nav-logo-mark" style="width:26px;height:26px;font-size:0.72rem;">Z</div>
+            Zenerly
+          </div>
+          <p class="footer-brand-desc">Cloud-native HRMS, CareStream AI, and tax compliance across 18 countries.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Product</h5>
+          <ul>
+            <li><a>HRMS</a></li>
+            <li><a>CareStream</a></li>
+            <li><a>Tax Compliance</a></li>
+            <li><a onclick="goPage('pricing')">Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a>About</a></li>
+            <li><a>Careers</a></li>
+            <li><a>Blog</a></li>
+            <li><a onclick="goPage('contact')" style="color:var(--teal-light);">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Legal</h5>
+          <ul>
+            <li><a>Privacy</a></li>
+            <li><a>Terms</a></li>
+            <li><a>Security</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2025 Zenerly Pte. Ltd. All rights reserved.</span>
+        <span class="footer-copy" onclick="goPage('home')" style="cursor:pointer;color:var(--teal-light);">← Back to Home</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /page-contact -->
