@@ -7,1414 +7,758 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ══════════════════════════════════════
-   LIGHT THEME TOKENS
-══════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════
+   DESIGN TOKENS
+════════════════════════════════════════════════════════ */
 :root {
-  /* Backgrounds */
-  --bg:       #f7f8fa;
-  --bg-alt:   #ffffff;
-  --bg-hero:  #eef2ff;
-
-  /* Surfaces */
-  --card:     #ffffff;
-  --card-alt: #f3f4f8;
-
-  /* Borders */
-  --edge:     rgba(0,0,0,0.08);
-  --edge-md:  rgba(0,0,0,0.12);
-
-  /* Text */
-  --ink:      #0f1523;
-  --ink-2:    #374151;
-  --ink-3:    #6b7280;
-  --ink-4:    #9ca3af;
-
-  /* Brand accents */
+  --bg:          #f7f8fa;
+  --card:        #ffffff;
+  --card-alt:    #f3f4f8;
+  --edge:        rgba(0,0,0,0.08);
+  --edge-md:     rgba(0,0,0,0.13);
+  --ink:         #0f1523;
+  --ink-2:       #374151;
+  --ink-3:       #6b7280;
+  --ink-4:       #9ca3af;
   --teal:        #0d9488;
   --teal-light:  #14b8a6;
   --teal-dim:    rgba(13,148,136,0.09);
-  --teal-border: rgba(13,148,136,0.2);
-
+  --teal-bdr:    rgba(13,148,136,0.22);
   --indigo:      #4f46e5;
   --indigo-dim:  rgba(79,70,229,0.08);
-  --indigo-border: rgba(79,70,229,0.2);
-
+  --indigo-bdr:  rgba(79,70,229,0.22);
   --amber:       #d97706;
   --amber-dim:   rgba(217,119,6,0.08);
-  --amber-border: rgba(217,119,6,0.2);
-
+  --amber-bdr:   rgba(217,119,6,0.2);
   --green:       #16a34a;
-
-  /* Fonts */
-  --ff-head: 'Syne', sans-serif;
-  --ff-body: 'Fraunces', Georgia, serif;
-  --ff-mono: 'IBM Plex Mono', monospace;
-
-  /* Layout */
-  --nav-h: 68px;
-  --r-sm:  10px;
-  --r-md:  16px;
-  --r-lg:  24px;
-  --r-xl:  32px;
-
-  /* Shadows */
-  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.05);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.06);
+  --red:         #ef4444;
+  --ff-h: 'Syne', sans-serif;
+  --ff-b: 'Fraunces', Georgia, serif;
+  --ff-m: 'IBM Plex Mono', monospace;
+  --nav-h: 60px;
+  --r-sm: 10px; --r-md: 16px; --r-lg: 22px; --r-xl: 28px;
+  --sh-sm: 0 1px 4px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+  --sh-md: 0 4px 16px rgba(0,0,0,0.08),0 2px 6px rgba(0,0,0,0.05);
+  --sh-lg: 0 12px 40px rgba(0,0,0,0.10),0 4px 12px rgba(0,0,0,0.06);
 }
 
-/* ══════════════════════════════════════
-   RESET & BASE
-══════════════════════════════════════ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
-body {
-  font-family: var(--ff-body);
-  background: var(--bg);
-  color: var(--ink);
-  overflow-x: hidden;
-  line-height: 1.65;
-}
-a { text-decoration: none; color: inherit; }
-button { font-family: var(--ff-head); cursor: pointer; border: none; background: none; }
+/* ════════════════════════════════════════════════════════
+   RESET
+════════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--ff-b);background:var(--bg);color:var(--ink);overflow-x:hidden;line-height:1.65}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--ff-h);cursor:pointer;border:none;background:none}
+img{max-width:100%}
+.page{display:none}
+.page.active{display:block}
 
-/* Page system */
-.page { display: none; }
-.page.active { display: block; }
+/* ════════════════════════════════════════════════════════
+   NAV — mobile first: hamburger visible, links hidden
+════════════════════════════════════════════════════════ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;
+  background:rgba(255,255,255,0.94);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--edge);
+  box-shadow:var(--sh-sm);
+}
+.nav-logo{display:flex;align-items:center;gap:8px;cursor:pointer;flex-shrink:0}
+.nav-logo-mark{
+  width:32px;height:32px;background:var(--teal);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-h);font-weight:800;font-size:0.85rem;color:#fff;
+}
+.nav-logo-text{font-family:var(--ff-h);font-size:1.15rem;font-weight:800;color:var(--ink);letter-spacing:-0.03em}
 
-/* ══════════════════════════════════════
-   NAVIGATION
-══════════════════════════════════════ */
-.nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  height: var(--nav-h);
-  display: flex; align-items: center;
-  padding: 0 clamp(16px,5vw,60px);
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--edge);
-  box-shadow: var(--shadow-sm);
-}
+/* Desktop nav links — hidden on mobile */
+.nav-center{display:none}
+.nav-btn-ghost{display:none}
 
-.nav-logo {
-  display: flex; align-items: center; gap: 9px;
-  cursor: pointer; flex-shrink: 0;
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-btn-cta{
+  font-family:var(--ff-h);font-size:0.8rem;font-weight:700;
+  color:#fff;padding:8px 14px;border-radius:8px;background:var(--teal);
+  transition:background 0.18s,transform 0.15s;white-space:nowrap;
 }
-.nav-logo-mark {
-  width: 34px; height: 34px;
-  background: var(--teal);
-  border-radius: 9px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--ff-head);
-  font-weight: 800; font-size: 0.88rem;
-  color: #fff;
-}
-.nav-logo-text {
-  font-family: var(--ff-head);
-  font-size: 1.22rem; font-weight: 800;
-  color: var(--ink);
-  letter-spacing: -0.03em;
-}
+.nav-btn-cta:hover{background:var(--teal-light);transform:translateY(-1px)}
 
-.nav-center {
-  flex: 1;
-  display: flex; justify-content: center; gap: 4px;
+/* Hamburger — visible on mobile */
+.nav-hamburger{
+  display:flex;flex-direction:column;justify-content:center;gap:5px;
+  width:36px;height:36px;background:var(--card-alt);
+  border:1px solid var(--edge);border-radius:8px;padding:7px;cursor:pointer;
 }
-.nav-link {
-  font-family: var(--ff-head);
-  font-size: 0.82rem; font-weight: 500;
-  color: var(--ink-3);
-  padding: 7px 13px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: color 0.18s, background 0.18s;
-  white-space: nowrap;
+.nav-hamburger span{
+  display:block;width:100%;height:1.5px;background:var(--ink-2);
+  border-radius:2px;transition:transform 0.3s,opacity 0.3s;transform-origin:center;
 }
-.nav-link:hover { color: var(--teal); background: var(--teal-dim); }
-
-.nav-right {
-  display: flex; align-items: center; gap: 8px;
-  flex-shrink: 0;
-}
-.nav-btn-ghost {
-  font-family: var(--ff-head);
-  font-size: 0.82rem; font-weight: 600;
-  color: var(--ink-2);
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: 1px solid var(--edge-md);
-  background: transparent;
-  transition: all 0.18s;
-}
-.nav-btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
-.nav-btn-cta {
-  font-family: var(--ff-head);
-  font-size: 0.82rem; font-weight: 700;
-  color: #fff;
-  padding: 9px 18px;
-  border-radius: 8px;
-  background: var(--teal);
-  transition: background 0.18s, transform 0.15s;
-}
-.nav-btn-cta:hover { background: var(--teal-light); transform: translateY(-1px); }
-
-/* Hamburger */
-.nav-hamburger {
-  display: none;
-  flex-direction: column; justify-content: center; gap: 5px;
-  width: 38px; height: 38px;
-  background: var(--card-alt);
-  border: 1px solid var(--edge);
-  border-radius: 8px;
-  padding: 8px;
-  cursor: pointer;
-  margin-left: 8px;
-}
-.nav-hamburger span {
-  display: block; width: 100%; height: 1.5px;
-  background: var(--ink-2);
-  border-radius: 2px;
-  transition: transform 0.3s, opacity 0.3s;
-  transform-origin: center;
-}
-.nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-.nav-hamburger.open span:nth-child(2) { opacity: 0; }
-.nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+.nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 
 /* Mobile drawer */
-.mobile-drawer {
-  display: none;
-  position: fixed;
-  top: var(--nav-h); left: 0; right: 0;
-  background: rgba(255,255,255,0.98);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--edge);
-  box-shadow: var(--shadow-md);
-  z-index: 999;
-  flex-direction: column;
-  padding: 12px clamp(16px,5vw,40px) 20px;
-  animation: drawerSlide 0.2s ease;
+.mobile-drawer{
+  display:none;position:fixed;top:var(--nav-h);left:0;right:0;
+  background:rgba(255,255,255,0.98);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--edge);box-shadow:var(--sh-md);
+  z-index:999;flex-direction:column;
+  padding:12px 16px 20px;animation:drawerSlide 0.2s ease;
 }
-@keyframes drawerSlide {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes drawerSlide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.mobile-drawer.open{display:flex}
+.drawer-link{
+  font-family:var(--ff-h);font-size:0.95rem;font-weight:500;color:var(--ink-2);
+  padding:13px 4px;border-bottom:1px solid var(--edge);cursor:pointer;transition:color 0.18s;
 }
-.mobile-drawer.open { display: flex; }
-.drawer-link {
-  font-family: var(--ff-head);
-  font-size: 0.95rem; font-weight: 500;
-  color: var(--ink-2);
-  padding: 13px 4px;
-  border-bottom: 1px solid var(--edge);
-  cursor: pointer;
-  transition: color 0.18s;
-}
-.drawer-link:last-child { border-bottom: none; }
-.drawer-link:hover { color: var(--teal); }
-.drawer-cta {
-  margin-top: 12px;
-  background: var(--teal);
-  color: #fff !important;
-  padding: 13px 20px;
-  border-radius: 10px;
-  text-align: center;
-  border: none !important;
-  font-weight: 700;
+.drawer-link:last-child{border-bottom:none}
+.drawer-link:hover{color:var(--teal)}
+.drawer-cta{
+  margin-top:12px;background:var(--teal);color:#fff!important;
+  padding:13px 20px;border-radius:10px;text-align:center;
+  border:none!important;font-weight:700;
 }
 
-/* ══════════════════════════════════════
+/* ════════════════════════════════════════════════════════
    LAYOUT UTILITIES
-══════════════════════════════════════ */
-.container {
-  width: 100%; max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 clamp(16px,5vw,60px);
-}
-.section { padding: clamp(60px,9vw,112px) 0; }
+════════════════════════════════════════════════════════ */
+.container{width:100%;max-width:1200px;margin:0 auto;padding:0 16px}
+/* Mobile section padding */
+.section{padding:52px 0}
 
-.eyebrow {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--ff-mono);
-  font-size: 0.68rem; font-weight: 500;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--teal);
-  margin-bottom: 18px;
+.eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--ff-m);font-size:0.65rem;font-weight:500;
+  letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:14px;
 }
-.eyebrow::before {
-  content: '';
-  display: block; width: 18px; height: 1.5px;
-  background: var(--teal); border-radius: 2px;
-}
+.eyebrow::before{content:'';display:block;width:16px;height:1.5px;background:var(--teal);border-radius:2px}
 
-.section-title {
-  font-family: var(--ff-head);
-  font-size: clamp(1.9rem,4vw,3rem);
-  font-weight: 800;
-  line-height: 1.1; letter-spacing: -0.035em;
-  color: var(--ink);
-  margin-bottom: 16px;
+/* Mobile: smaller headings, grow on wider screens */
+.section-title{
+  font-family:var(--ff-h);font-size:1.75rem;font-weight:800;
+  line-height:1.12;letter-spacing:-0.03em;color:var(--ink);margin-bottom:14px;
 }
-.section-body {
-  font-family: var(--ff-body);
-  font-size: clamp(0.94rem,1.5vw,1.05rem);
-  color: var(--ink-3); line-height: 1.78;
-  max-width: 520px;
-}
+.section-body{font-family:var(--ff-b);font-size:0.95rem;color:var(--ink-3);line-height:1.78;max-width:520px}
 
 /* Chips */
-.chip {
-  display: inline-block;
-  font-family: var(--ff-mono);
-  font-size: 0.62rem; letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 3px 9px; border-radius: 20px;
-}
-.chip-teal   { background: var(--teal-dim);   color: var(--teal);   border: 1px solid var(--teal-border); }
-.chip-indigo { background: var(--indigo-dim);  color: var(--indigo); border: 1px solid var(--indigo-border); }
-.chip-amber  { background: var(--amber-dim);   color: var(--amber);  border: 1px solid var(--amber-border); }
+.chip{display:inline-block;font-family:var(--ff-m);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;border-radius:20px}
+.chip-teal{background:var(--teal-dim);color:var(--teal);border:1px solid var(--teal-bdr)}
+.chip-indigo{background:var(--indigo-dim);color:var(--indigo);border:1px solid var(--indigo-bdr)}
+.chip-amber{background:var(--amber-dim);color:var(--amber);border:1px solid var(--amber-bdr)}
 
 /* Buttons */
-.btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--ff-head); font-weight: 600;
-  border-radius: 10px; cursor: pointer;
-  transition: all 0.18s; border: none;
-  text-decoration: none;
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--ff-h);font-weight:600;border-radius:10px;cursor:pointer;transition:all 0.18s;border:none;
 }
-.btn-lg { font-size: 0.92rem; padding: 13px 24px; }
-.btn-md { font-size: 0.82rem; padding: 10px 18px; }
+/* Mobile: comfortable touch targets */
+.btn-lg{font-size:0.9rem;padding:13px 22px}
+.btn-md{font-size:0.82rem;padding:10px 16px}
+.btn-teal{background:var(--teal);color:#fff}
+.btn-teal:hover{background:#0b8076;transform:translateY(-1px);box-shadow:0 4px 14px rgba(13,148,136,0.28)}
+.btn-outline{background:#fff;color:var(--ink-2);border:1.5px solid var(--edge-md)}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-dim)}
+.btn-white{background:#fff;color:var(--teal);border:1.5px solid rgba(255,255,255,0.4)}
+.btn-white:hover{background:var(--bg)}
+.btn-ghost-light{background:rgba(255,255,255,0.15);color:#fff;border:1.5px solid rgba(255,255,255,0.3)}
+.btn-ghost-light:hover{background:rgba(255,255,255,0.25)}
+.arrow-i{transition:transform 0.18s}
+.btn:hover .arrow-i{transform:translateX(3px)}
 
-.btn-teal  { background: var(--teal);  color: #fff; }
-.btn-teal:hover { background: #0b8076; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(13,148,136,0.28); }
+/* Full-width buttons on mobile */
+.btn-full{width:100%;justify-content:center}
 
-.btn-outline {
-  background: #fff; color: var(--ink-2);
-  border: 1.5px solid var(--edge-md);
+/* ════════════════════════════════════════════════════════
+   HERO — mobile: single column, stacked
+════════════════════════════════════════════════════════ */
+.hero{
+  min-height:100svh;padding-top:var(--nav-h);
+  background:linear-gradient(160deg,#eef7f6 0%,#f7f8fa 55%,#eef2ff 100%);
+  position:relative;overflow:hidden;display:flex;align-items:center;
 }
-.btn-outline:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-dim); }
-
-.btn-white {
-  background: #fff; color: var(--teal);
-  border: 1.5px solid rgba(255,255,255,0.4);
+/* Ambient circles */
+.hero::before{
+  content:'';position:absolute;
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(13,148,136,0.12) 0%,transparent 68%);
+  top:-10%;right:-15%;pointer-events:none;
 }
-.btn-white:hover { background: var(--bg-alt); }
-
-.arrow-i { transition: transform 0.18s; }
-.btn:hover .arrow-i { transform: translateX(3px); }
-
-/* ══════════════════════════════════════
-   HERO
-══════════════════════════════════════ */
-.hero {
-  min-height: 100svh;
-  padding-top: var(--nav-h);
-  background: linear-gradient(160deg, #eef7f6 0%, #f7f8fa 55%, #eff1ff 100%);
-  position: relative; overflow: hidden;
-  display: flex; align-items: center;
+.hero::after{
+  content:'';position:absolute;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(79,70,229,0.09) 0%,transparent 68%);
+  bottom:-8%;left:-8%;pointer-events:none;
 }
-
-/* Decorative shapes */
-.hero::before {
-  content: '';
-  position: absolute;
-  width: clamp(300px,55vw,720px); height: clamp(300px,55vw,720px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(13,148,136,0.12) 0%, transparent 68%);
-  top: -15%; right: -8%;
-  pointer-events: none;
-}
-.hero::after {
-  content: '';
-  position: absolute;
-  width: clamp(200px,35vw,460px); height: clamp(200px,35vw,460px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(79,70,229,0.09) 0%, transparent 68%);
-  bottom: -10%; left: -4%;
-  pointer-events: none;
-}
-
-.hero-grid-lines {
-  position: absolute; inset: 0; pointer-events: none;
+.hero-grid-lines{
+  position:absolute;inset:0;pointer-events:none;
   background-image:
-    linear-gradient(rgba(0,0,0,0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 30%, transparent 100%);
+    linear-gradient(rgba(0,0,0,0.032) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,0,0,0.032) 1px,transparent 1px);
+  background-size:44px 44px;
+  mask-image:radial-gradient(ellipse 85% 85% at 50% 50%,black 30%,transparent 100%);
 }
+.hero-inner{
+  position:relative;z-index:2;width:100%;
+  padding:48px 16px 52px;
+}
+.hero-content{animation:fadeUp 0.75s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-.hero-inner {
-  position: relative; z-index: 2;
-  width: 100%; max-width: 1200px; margin: 0 auto;
-  padding: clamp(56px,9vw,112px) clamp(16px,5vw,60px);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(36px,6vw,80px);
-  align-items: center;
+.hero-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--teal-dim);border:1px solid var(--teal-bdr);border-radius:20px;
+  padding:5px 12px 5px 8px;font-family:var(--ff-m);
+  font-size:0.64rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);
+  margin-bottom:20px;
 }
+.pill-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.65)}}
 
-/* Hero content */
-.hero-content {
-  animation: fadeUp 0.75s ease both;
+/* Mobile hero h1 */
+.hero-h1{
+  font-family:var(--ff-h);font-size:2.2rem;font-weight:800;
+  line-height:1.06;letter-spacing:-0.04em;color:var(--ink);margin-bottom:18px;
 }
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+.hero-h1 .hl-teal{color:var(--teal)}
+.hero-h1 .hl-indigo{
+  font-family:var(--ff-b);font-style:italic;font-weight:300;
+  color:var(--indigo);font-size:0.92em;
 }
+.hero-sub{font-size:0.98rem;color:var(--ink-3);line-height:1.78;margin-bottom:28px}
 
-.hero-pill {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: var(--teal-dim);
-  border: 1px solid var(--teal-border);
-  border-radius: 20px;
-  padding: 5px 12px 5px 8px;
-  font-family: var(--ff-mono);
-  font-size: 0.66rem; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--teal);
-  margin-bottom: 26px;
-}
-.pill-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--teal);
-  animation: pulseAnim 2s ease infinite;
-}
-@keyframes pulseAnim {
-  0%,100% { opacity:1; transform:scale(1); }
-  50%      { opacity:0.4; transform:scale(0.65); }
-}
+/* Hero actions: stacked on mobile */
+.hero-actions{display:flex;flex-direction:column;gap:10px;margin-bottom:40px}
 
-.hero-h1 {
-  font-family: var(--ff-head);
-  font-size: clamp(2.4rem,5.5vw,4rem);
-  font-weight: 800; line-height: 1.06;
-  letter-spacing: -0.04em; color: var(--ink);
-  margin-bottom: 22px;
+/* Hero stats: 2-col grid on mobile */
+.hero-stats{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:16px;padding-top:24px;border-top:1px solid rgba(0,0,0,0.1);
 }
-.hero-h1 .hl-teal   { color: var(--teal); }
-.hero-h1 .hl-indigo {
-  font-family: var(--ff-body);
-  font-style: italic; font-weight: 300;
-  color: var(--indigo); font-size: 0.92em;
-}
+.stat-n{font-family:var(--ff-h);font-size:1.6rem;font-weight:800;color:var(--ink);letter-spacing:-0.04em;line-height:1}
+.stat-l{font-family:var(--ff-m);font-size:0.62rem;color:var(--ink-3);margin-top:3px;letter-spacing:0.06em;text-transform:uppercase}
 
-.hero-sub {
-  font-size: clamp(0.95rem,1.8vw,1.08rem);
-  color: var(--ink-3); line-height: 1.78;
-  margin-bottom: 36px; max-width: 470px;
-}
+/* Hero visual panel — hidden on mobile, shown on tablet+ */
+.hero-visual{display:none}
 
-.hero-actions {
-  display: flex; gap: 11px; flex-wrap: wrap;
-  margin-bottom: 48px;
+/* ════════════════════════════════════════════════════════
+   HERO PANEL (shared styles used in desktop view)
+════════════════════════════════════════════════════════ */
+.hero-panel{
+  background:#fff;border:1px solid var(--edge);border-radius:var(--r-lg);
+  padding:20px;box-shadow:var(--sh-lg);position:relative;
 }
+.hero-panel::before{
+  content:'';position:absolute;top:0;left:20px;right:20px;height:2px;
+  background:linear-gradient(90deg,transparent,var(--teal),transparent);
+  border-radius:0 0 2px 2px;opacity:0.5;
+}
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.panel-title{font-family:var(--ff-m);font-size:0.62rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-4)}
+.panel-live{display:flex;align-items:center;gap:5px;font-family:var(--ff-m);font-size:0.6rem;color:var(--green)}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s ease infinite}
+.panel-metric{font-family:var(--ff-h);font-size:2.2rem;font-weight:800;color:var(--ink);letter-spacing:-0.04em;line-height:1}
+.panel-sub{font-family:var(--ff-m);font-size:0.62rem;color:var(--ink-3);margin:4px 0 14px}
+.sparkline{display:flex;align-items:flex-end;gap:3px;height:40px}
+.sp-bar{flex:1;border-radius:3px 3px 0 0;background:var(--teal-dim)}
+.sp-bar.hi{background:var(--teal)}
+.alert-list{margin-top:12px}
+.alert-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--edge)}
+.alert-row:last-child{border-bottom:none;padding-bottom:0}
+.adot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.adot-g{background:var(--green)}.adot-a{background:#f59e0b}.adot-r{background:var(--red)}
+.a-text{font-family:var(--ff-m);font-size:0.62rem;color:var(--ink-3);flex:1;line-height:1.4}
+.a-time{font-family:var(--ff-m);font-size:0.58rem;color:var(--ink-4);flex-shrink:0}
+.float-card{
+  position:absolute;background:#fff;border:1px solid var(--edge);
+  border-radius:var(--r-md);padding:10px 13px;box-shadow:var(--sh-md);
+  animation:floatBob 4s ease-in-out infinite;
+}
+@keyframes floatBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.fc-a{bottom:-16px;right:-12px;min-width:148px;animation-delay:0.4s}
+.fc-b{top:-12px;left:-12px;min-width:134px;animation-delay:1.4s}
+.fc-label{font-family:var(--ff-m);font-size:0.58rem;color:var(--ink-4);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px}
+.fc-val{font-family:var(--ff-h);font-size:0.95rem;font-weight:800;color:var(--ink)}
+.fc-sub{font-family:var(--ff-m);font-size:0.55rem;color:var(--teal);margin-top:2px}
 
-.hero-stats {
-  display: flex; gap: clamp(20px,4vw,44px);
-  padding-top: 28px;
-  border-top: 1px solid rgba(0,0,0,0.1);
-  flex-wrap: wrap;
-}
-.stat-n {
-  font-family: var(--ff-head);
-  font-size: clamp(1.5rem,3vw,2.1rem);
-  font-weight: 800; color: var(--ink);
-  letter-spacing: -0.04em; line-height: 1;
-}
-.stat-l {
-  font-family: var(--ff-mono);
-  font-size: 0.65rem; color: var(--ink-3);
-  margin-top: 4px; letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-/* ── Hero visual panel ── */
-.hero-visual {
-  position: relative;
-  animation: fadeUp 0.75s 0.18s ease both;
-}
-
-.hero-panel {
-  background: #fff;
-  border: 1px solid var(--edge);
-  border-radius: var(--r-lg);
-  padding: clamp(18px,3vw,26px);
-  box-shadow: var(--shadow-lg);
-  position: relative;
-}
-.hero-panel::before {
-  content: '';
-  position: absolute; top: 0; left: 24px; right: 24px; height: 2px;
-  background: linear-gradient(90deg, transparent, var(--teal), transparent);
-  border-radius: 0 0 2px 2px; opacity: 0.5;
-}
-
-.panel-hdr {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 18px;
-}
-.panel-title {
-  font-family: var(--ff-mono); font-size: 0.64rem;
-  text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-4);
-}
-.panel-live {
-  display: flex; align-items: center; gap: 5px;
-  font-family: var(--ff-mono); font-size: 0.6rem; color: var(--green);
-}
-.live-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--green);
-  animation: pulseAnim 2s ease infinite;
-}
-
-.panel-metric {
-  font-family: var(--ff-head);
-  font-size: clamp(1.8rem,4vw,2.8rem);
-  font-weight: 800; color: var(--ink);
-  letter-spacing: -0.04em; line-height: 1;
-}
-.panel-sub {
-  font-family: var(--ff-mono); font-size: 0.63rem;
-  color: var(--ink-3); margin: 4px 0 16px;
-}
-
-.sparkline {
-  display: flex; align-items: flex-end; gap: 4px; height: 42px;
-}
-.sp-bar {
-  flex: 1; border-radius: 3px 3px 0 0;
-  background: var(--teal-dim);
-}
-.sp-bar.hi { background: var(--teal); }
-
-.alert-list { margin-top: 14px; }
-.alert-row {
-  display: flex; align-items: center; gap: 9px;
-  padding: 9px 0;
-  border-bottom: 1px solid var(--edge);
-}
-.alert-row:last-child { border-bottom: none; padding-bottom: 0; }
-.adot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-.adot-g { background: var(--green); }
-.adot-a { background: #f59e0b; }
-.adot-r { background: #ef4444; }
-.a-text { font-family: var(--ff-mono); font-size: 0.63rem; color: var(--ink-3); flex: 1; line-height: 1.4; }
-.a-time { font-family: var(--ff-mono); font-size: 0.58rem; color: var(--ink-4); flex-shrink: 0; }
-
-/* Float cards */
-.float-card {
-  position: absolute;
-  background: #fff;
-  border: 1px solid var(--edge);
-  border-radius: var(--r-md);
-  padding: 11px 14px;
-  box-shadow: var(--shadow-md);
-  animation: floatBob 4s ease-in-out infinite;
-}
-@keyframes floatBob {
-  0%,100% { transform: translateY(0); }
-  50%      { transform: translateY(-7px); }
-}
-.fc-a { bottom: -18px; right: -18px; min-width: 155px; animation-delay: 0.4s; }
-.fc-b { top: -14px; left: -14px; min-width: 138px; animation-delay: 1.4s; }
-.fc-label { font-family: var(--ff-mono); font-size: 0.58rem; color: var(--ink-4); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
-.fc-val { font-family: var(--ff-head); font-size: 1rem; font-weight: 800; color: var(--ink); }
-.fc-sub { font-family: var(--ff-mono); font-size: 0.56rem; color: var(--teal); margin-top: 2px; }
-
-/* ══════════════════════════════════════
+/* ════════════════════════════════════════════════════════
    LOGO STRIP
-══════════════════════════════════════ */
-.logo-strip {
-  padding: clamp(28px,4vw,48px) 0;
-  background: var(--card);
-  border-top: 1px solid var(--edge);
-  border-bottom: 1px solid var(--edge);
+════════════════════════════════════════════════════════ */
+.logo-strip{
+  padding:28px 0;background:var(--card);
+  border-top:1px solid var(--edge);border-bottom:1px solid var(--edge);
 }
-.logo-strip-label {
-  font-family: var(--ff-mono); font-size: 0.63rem;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--ink-4); text-align: center; margin-bottom: 24px;
+.logo-strip-label{
+  font-family:var(--ff-m);font-size:0.62rem;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--ink-4);text-align:center;margin-bottom:20px;
 }
-.logo-row {
-  display: flex; align-items: center;
-  justify-content: center;
-  gap: clamp(20px,4vw,52px); flex-wrap: wrap;
+/* Scrollable on mobile */
+.logo-row{
+  display:flex;align-items:center;gap:20px;
+  overflow-x:auto;padding-bottom:4px;
+  scrollbar-width:none;-ms-overflow-style:none;
 }
-.logo-item {
-  font-family: var(--ff-head);
-  font-size: clamp(0.82rem,1.4vw,1rem);
-  font-weight: 700; color: var(--ink-4);
-  letter-spacing: -0.02em; transition: color 0.18s;
+.logo-row::-webkit-scrollbar{display:none}
+.logo-item{
+  font-family:var(--ff-h);font-size:0.85rem;font-weight:700;color:var(--ink-4);
+  letter-spacing:-0.02em;transition:color 0.18s;white-space:nowrap;flex-shrink:0;
 }
-.logo-item:hover { color: var(--teal); }
+.logo-item:hover{color:var(--teal)}
 
-/* ══════════════════════════════════════
-   SOLUTIONS
-══════════════════════════════════════ */
-.solutions-grid {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: clamp(14px,2.5vw,22px);
-  margin-top: clamp(36px,5vw,56px);
+/* ════════════════════════════════════════════════════════
+   SOLUTIONS — single column on mobile
+════════════════════════════════════════════════════════ */
+.solutions-grid{display:flex;flex-direction:column;gap:16px;margin-top:32px}
+.sol-card{
+  background:var(--card);border:1px solid var(--edge);border-radius:var(--r-xl);
+  padding:24px;box-shadow:var(--sh-sm);position:relative;overflow:hidden;
+  transition:transform 0.28s,box-shadow 0.28s,border-color 0.28s;
 }
+.sol-card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg)}
+.sol-card-hrms:hover{border-color:var(--teal-bdr)}
+.sol-card-cs:hover{border-color:var(--indigo-bdr)}
+.sol-card-tax:hover{border-color:var(--amber-bdr)}
+.sol-card-accent{position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r-xl) var(--r-xl) 0 0}
+.accent-teal{background:linear-gradient(90deg,var(--teal),var(--teal-light))}
+.accent-indigo{background:linear-gradient(90deg,var(--indigo),#818cf8)}
+.accent-amber{background:linear-gradient(90deg,var(--amber),#fbbf24)}
+.sol-icon-wrap{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:18px}
+.sic-teal{background:var(--teal-dim);border:1px solid var(--teal-bdr)}
+.sic-indigo{background:var(--indigo-dim);border:1px solid var(--indigo-bdr)}
+.sic-amber{background:var(--amber-dim);border:1px solid var(--amber-bdr)}
+.sol-name{font-family:var(--ff-h);font-size:1.15rem;font-weight:800;letter-spacing:-0.03em;color:var(--ink);margin-bottom:5px}
+.sol-name-cs{background:linear-gradient(90deg,var(--indigo),#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sol-tagline{font-family:var(--ff-b);font-style:italic;font-size:0.82rem;color:var(--ink-3);margin-bottom:12px}
+.sol-desc{font-family:var(--ff-b);font-size:0.86rem;color:var(--ink-3);line-height:1.72;margin-bottom:18px}
+.sol-features{list-style:none;display:flex;flex-direction:column;gap:8px}
+.sol-features li{display:flex;align-items:center;gap:8px;font-family:var(--ff-m);font-size:0.68rem;color:var(--ink-3)}
+.sol-features li::before{content:'';display:block;width:4px;height:4px;border-radius:50%;flex-shrink:0}
+.f-teal::before{background:var(--teal)}.f-indigo::before{background:var(--indigo)}.f-amber::before{background:var(--amber)}
+.cs-badge{
+  position:absolute;top:16px;right:16px;background:var(--indigo-dim);
+  border:1px solid var(--indigo-bdr);border-radius:20px;padding:3px 8px;
+  font-family:var(--ff-m);font-size:0.56rem;color:var(--indigo);letter-spacing:0.1em;text-transform:uppercase;
+}
+.sol-header-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
 
-.sol-card {
-  background: var(--card);
-  border: 1px solid var(--edge);
-  border-radius: var(--r-xl);
-  padding: clamp(22px,3vw,36px);
-  box-shadow: var(--shadow-sm);
-  position: relative; overflow: hidden;
-  transition: transform 0.28s, box-shadow 0.28s, border-color 0.28s;
+/* ════════════════════════════════════════════════════════
+   CARESTREAM SPOTLIGHT — stacked on mobile
+════════════════════════════════════════════════════════ */
+.cs-section{
+  background:linear-gradient(160deg,#eef2ff 0%,#f5f7ff 60%,#eff7f6 100%);
+  border-top:1px solid var(--edge);border-bottom:1px solid var(--edge);
 }
-.sol-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-.sol-card-hrms:hover  { border-color: var(--teal-border); }
-.sol-card-cs:hover    { border-color: var(--indigo-border); }
-.sol-card-tax:hover   { border-color: var(--amber-border); }
-
-.sol-card-accent {
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  border-radius: var(--r-xl) var(--r-xl) 0 0;
-}
-.accent-teal   { background: linear-gradient(90deg, var(--teal), var(--teal-light)); }
-.accent-indigo { background: linear-gradient(90deg, var(--indigo), #818cf8); }
-.accent-amber  { background: linear-gradient(90deg, var(--amber), #fbbf24); }
-
-.sol-icon-wrap {
-  width: 50px; height: 50px; border-radius: 13px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.35rem; margin-bottom: 22px;
-}
-.sic-teal   { background: var(--teal-dim);   border: 1px solid var(--teal-border); }
-.sic-indigo { background: var(--indigo-dim);  border: 1px solid var(--indigo-border); }
-.sic-amber  { background: var(--amber-dim);   border: 1px solid var(--amber-border); }
-
-.sol-name {
-  font-family: var(--ff-head);
-  font-size: 1.25rem; font-weight: 800;
-  letter-spacing: -0.03em; color: var(--ink);
-  margin-bottom: 5px;
-}
-.sol-name-cs {
-  background: linear-gradient(90deg, var(--indigo), #6366f1);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.sol-tagline {
-  font-family: var(--ff-body); font-style: italic;
-  font-size: 0.82rem; color: var(--ink-3); margin-bottom: 14px;
-}
-.sol-desc {
-  font-family: var(--ff-body);
-  font-size: 0.88rem; color: var(--ink-3);
-  line-height: 1.72; margin-bottom: 22px;
-}
-.sol-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.sol-features li {
-  display: flex; align-items: center; gap: 8px;
-  font-family: var(--ff-mono); font-size: 0.7rem; color: var(--ink-3);
-}
-.sol-features li::before {
-  content: ''; display: block;
-  width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0;
-}
-.f-teal::before   { background: var(--teal); }
-.f-indigo::before { background: var(--indigo); }
-.f-amber::before  { background: var(--amber); }
-
-.cs-badge {
-  position: absolute; top: 18px; right: 18px;
-  background: var(--indigo-dim); border: 1px solid var(--indigo-border);
-  border-radius: 20px; padding: 3px 9px;
-  font-family: var(--ff-mono); font-size: 0.58rem;
-  color: var(--indigo); letter-spacing: 0.1em; text-transform: uppercase;
-}
-
-/* ══════════════════════════════════════
-   CARESTREAM SPOTLIGHT
-══════════════════════════════════════ */
-.cs-section {
-  background: linear-gradient(160deg, #eef2ff 0%, #f5f7ff 60%, #eff7f6 100%);
-  border-top: 1px solid var(--edge); border-bottom: 1px solid var(--edge);
-}
-.cs-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: clamp(36px,7vw,88px); align-items: center;
-}
+.cs-grid{display:flex;flex-direction:column;gap:36px}
 
 /* Chat demo */
-.chat-demo {
-  background: #fff;
-  border: 1px solid var(--edge);
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow-lg);
-  overflow: hidden;
+.chat-demo{
+  background:#fff;border:1px solid var(--edge);
+  border-radius:var(--r-lg);box-shadow:var(--sh-lg);overflow:hidden;
 }
-.chat-topbar {
-  display: flex; align-items: center; gap: 10px;
-  padding: 13px 18px;
-  border-bottom: 1px solid var(--edge);
-  background: var(--bg);
+.chat-topbar{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px;border-bottom:1px solid var(--edge);background:var(--bg);
 }
-.chat-av {
-  width: 32px; height: 32px; border-radius: 50%;
-  background: var(--indigo-dim); border: 1px solid var(--indigo-border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.9rem;
+.chat-av{
+  width:30px;height:30px;border-radius:50%;
+  background:var(--indigo-dim);border:1px solid var(--indigo-bdr);
+  display:flex;align-items:center;justify-content:center;font-size:0.85rem;
 }
-.chat-nm  { font-family: var(--ff-head); font-size: 0.82rem; font-weight: 700; color: var(--ink); }
-.chat-st  { font-family: var(--ff-mono); font-size: 0.6rem; color: var(--indigo); }
-.chat-dot-live {
-  margin-left: auto; width: 8px; height: 8px; border-radius: 50%;
-  background: var(--green); animation: pulseAnim 2s ease infinite;
-}
+.chat-nm{font-family:var(--ff-h);font-size:0.8rem;font-weight:700;color:var(--ink)}
+.chat-st{font-family:var(--ff-m);font-size:0.58rem;color:var(--indigo)}
+.chat-dot-live{margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s ease infinite}
+.chat-body{padding:16px;display:flex;flex-direction:column;gap:12px}
+.msg{display:flex;flex-direction:column;gap:3px;max-width:88%}
+.msg-u{align-self:flex-end;align-items:flex-end}
+.msg-b{align-self:flex-start;align-items:flex-start}
+.msg-bubble{padding:9px 12px;border-radius:14px;font-family:var(--ff-b);font-size:0.82rem;line-height:1.5}
+.msg-u .msg-bubble{background:var(--teal);color:#fff;border-bottom-right-radius:4px}
+.msg-b .msg-bubble{background:var(--card-alt);color:var(--ink-2);border:1px solid var(--edge);border-bottom-left-radius:4px}
+.msg-time{font-family:var(--ff-m);font-size:0.56rem;color:var(--ink-4)}
+.chat-input-bar{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--edge)}
+.chat-inp{flex:1;background:var(--card-alt);border:1px solid var(--edge);border-radius:8px;padding:8px 12px;font-family:var(--ff-b);font-size:0.8rem;color:var(--ink-4)}
+.chat-send-btn{width:32px;height:32px;background:var(--indigo);border-radius:8px;color:#fff;font-size:0.85rem;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none}
 
-.chat-body { padding: 18px; display: flex; flex-direction: column; gap: 13px; }
-.msg { display: flex; flex-direction: column; gap: 3px; max-width: 85%; }
-.msg-u { align-self: flex-end; align-items: flex-end; }
-.msg-b { align-self: flex-start; align-items: flex-start; }
-.msg-bubble {
-  padding: 10px 13px; border-radius: 14px;
-  font-family: var(--ff-body); font-size: 0.82rem; line-height: 1.5;
-}
-.msg-u .msg-bubble {
-  background: var(--teal); color: #fff;
-  border-bottom-right-radius: 4px;
-}
-.msg-b .msg-bubble {
-  background: var(--card-alt); color: var(--ink-2);
-  border: 1px solid var(--edge);
-  border-bottom-left-radius: 4px;
-}
-.msg-time { font-family: var(--ff-mono); font-size: 0.57rem; color: var(--ink-4); }
-.chat-input-bar {
-  display: flex; gap: 8px; padding: 13px 18px;
-  border-top: 1px solid var(--edge);
-}
-.chat-inp {
-  flex: 1; background: var(--card-alt);
-  border: 1px solid var(--edge); border-radius: 8px;
-  padding: 8px 13px; font-family: var(--ff-body);
-  font-size: 0.8rem; color: var(--ink-4);
-}
-.chat-send-btn {
-  width: 34px; height: 34px;
-  background: var(--indigo); border-radius: 8px;
-  color: #fff; font-size: 0.85rem;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; border: none;
-}
+/* CareStream metrics: 2x2 on mobile */
+.cs-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.cs-mc{background:#fff;border:1px solid var(--edge);border-radius:var(--r-md);padding:14px 15px;box-shadow:var(--sh-sm)}
+.cs-mc-n{font-family:var(--ff-h);font-size:1.45rem;font-weight:800;color:var(--indigo);letter-spacing:-0.03em}
+.cs-mc-l{font-family:var(--ff-m);font-size:0.6rem;color:var(--ink-3);margin-top:2px;text-transform:uppercase;letter-spacing:0.06em}
 
-.cs-metrics {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 11px; margin-top: clamp(22px,3vw,32px);
-}
-.cs-mc {
-  background: #fff; border: 1px solid var(--edge);
-  border-radius: var(--r-md); padding: 14px 16px;
-  box-shadow: var(--shadow-sm);
-}
-.cs-mc-n {
-  font-family: var(--ff-head); font-size: 1.55rem;
-  font-weight: 800; color: var(--indigo); letter-spacing: -0.03em;
-}
-.cs-mc-l {
-  font-family: var(--ff-mono); font-size: 0.63rem;
-  color: var(--ink-3); margin-top: 2px;
-  text-transform: uppercase; letter-spacing: 0.06em;
-}
+/* CareStream copy */
+.cs-copy{}
+.cs-point{display:flex;gap:11px;margin-bottom:14px}
+.cs-point-dot{width:6px;height:6px;border-radius:50%;background:var(--indigo);flex-shrink:0;margin-top:6px}
+.cs-point-title{font-family:var(--ff-h);font-size:0.88rem;font-weight:700;color:var(--ink);margin-bottom:2px}
+.cs-point-body{font-family:var(--ff-b);font-size:0.82rem;color:var(--ink-3)}
 
-/* ══════════════════════════════════════
-   WHY ZENERLY
-══════════════════════════════════════ */
-.why-grid {
-  display: grid; grid-template-columns: repeat(4,1fr);
-  gap: clamp(13px,2vw,20px);
-  margin-top: clamp(36px,5vw,56px);
+/* ════════════════════════════════════════════════════════
+   WHY ZENERLY — single column on mobile
+════════════════════════════════════════════════════════ */
+.why-grid{display:flex;flex-direction:column;gap:14px;margin-top:32px}
+.why-card{
+  background:var(--card);border:1px solid var(--edge);border-radius:var(--r-lg);
+  padding:22px;box-shadow:var(--sh-sm);transition:transform 0.22s,box-shadow 0.22s,border-color 0.22s;
 }
-.why-card {
-  background: var(--card); border: 1px solid var(--edge);
-  border-radius: var(--r-lg); padding: clamp(18px,2.5vw,28px);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
-}
-.why-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--teal-border); }
-.why-num {
-  font-family: var(--ff-mono); font-size: 0.6rem;
-  color: var(--teal); letter-spacing: 0.12em;
-  margin-bottom: 14px; font-weight: 500;
-}
-.why-card h4 {
-  font-family: var(--ff-head);
-  font-size: clamp(0.88rem,1.4vw,1rem);
-  font-weight: 700; color: var(--ink);
-  letter-spacing: -0.02em; margin-bottom: 9px;
-}
-.why-card p {
-  font-family: var(--ff-body);
-  font-size: 0.84rem; color: var(--ink-3); line-height: 1.68;
-}
+.why-card:hover{transform:translateY(-2px);box-shadow:var(--sh-md);border-color:var(--teal-bdr)}
+.why-num{font-family:var(--ff-m);font-size:0.6rem;color:var(--teal);letter-spacing:0.12em;margin-bottom:12px}
+.why-card h4{font-family:var(--ff-h);font-size:0.96rem;font-weight:700;color:var(--ink);letter-spacing:-0.02em;margin-bottom:8px}
+.why-card p{font-family:var(--ff-b);font-size:0.84rem;color:var(--ink-3);line-height:1.68}
 
-/* ══════════════════════════════════════
-   TESTIMONIALS
-══════════════════════════════════════ */
-.testi-grid {
-  display: grid; grid-template-columns: repeat(3,1fr);
-  gap: clamp(14px,2.5vw,22px);
-  margin-top: clamp(36px,5vw,56px);
+/* ════════════════════════════════════════════════════════
+   TESTIMONIALS — single column on mobile
+════════════════════════════════════════════════════════ */
+.testi-grid{display:flex;flex-direction:column;gap:14px;margin-top:32px}
+.testi-card{
+  background:var(--card);border:1px solid var(--edge);border-radius:var(--r-lg);
+  padding:24px;box-shadow:var(--sh-sm);display:flex;flex-direction:column;
+  transition:box-shadow 0.22s,transform 0.22s;
 }
-.testi-card {
-  background: var(--card); border: 1px solid var(--edge);
-  border-radius: var(--r-lg); padding: clamp(22px,3vw,32px);
-  box-shadow: var(--shadow-sm);
-  display: flex; flex-direction: column;
-  transition: box-shadow 0.22s, transform 0.22s;
-}
-.testi-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-.testi-qmark {
-  font-family: var(--ff-body); font-size: 2.8rem;
-  color: var(--teal); opacity: 0.35; line-height: 0.8;
-  margin-bottom: 10px;
-}
-.testi-text {
-  font-family: var(--ff-body); font-style: italic;
-  font-size: clamp(0.86rem,1.4vw,0.98rem);
-  color: var(--ink-2); line-height: 1.68;
-  flex: 1; margin-bottom: 22px;
-}
-.testi-author { display: flex; align-items: center; gap: 11px; }
-.testi-av {
-  width: 38px; height: 38px; border-radius: 50%;
-  background: var(--teal-dim); border: 1px solid var(--teal-border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1rem; flex-shrink: 0;
-}
-.testi-name { font-family: var(--ff-head); font-size: 0.82rem; font-weight: 700; color: var(--ink); }
-.testi-role { font-family: var(--ff-mono); font-size: 0.6rem; color: var(--ink-3); margin-top: 2px; }
+.testi-card:hover{transform:translateY(-2px);box-shadow:var(--sh-md)}
+.testi-qmark{font-family:var(--ff-b);font-size:2.4rem;color:var(--teal);opacity:0.35;line-height:0.8;margin-bottom:10px}
+.testi-text{font-family:var(--ff-b);font-style:italic;font-size:0.92rem;color:var(--ink-2);line-height:1.68;flex:1;margin-bottom:18px}
+.testi-author{display:flex;align-items:center;gap:10px}
+.testi-av{width:36px;height:36px;border-radius:50%;background:var(--teal-dim);border:1px solid var(--teal-bdr);display:flex;align-items:center;justify-content:center;font-size:0.95rem;flex-shrink:0}
+.testi-name{font-family:var(--ff-h);font-size:0.8rem;font-weight:700;color:var(--ink)}
+.testi-role{font-family:var(--ff-m);font-size:0.6rem;color:var(--ink-3);margin-top:2px}
 
-/* ══════════════════════════════════════
+/* ════════════════════════════════════════════════════════
    CTA BAND
-══════════════════════════════════════ */
-.cta-band {
-  background: linear-gradient(135deg, var(--teal) 0%, #0b8076 50%, #115e59 100%);
-  border-radius: var(--r-xl); padding: clamp(44px,7vw,80px);
-  text-align: center; position: relative; overflow: hidden;
-  margin-bottom: clamp(56px,8vw,96px);
+════════════════════════════════════════════════════════ */
+.cta-band{
+  background:linear-gradient(135deg,var(--teal) 0%,#0b8076 50%,#115e59 100%);
+  border-radius:var(--r-xl);padding:36px 20px;text-align:center;
+  position:relative;overflow:hidden;margin-bottom:52px;
 }
-.cta-band::before {
-  content: '';
-  position: absolute; inset: 0;
+.cta-band::before{
+  content:'';position:absolute;inset:0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
-  background-size: 40px 40px;
+    linear-gradient(rgba(255,255,255,0.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.06) 1px,transparent 1px);
+  background-size:36px 36px;
 }
-.cta-band h2 {
-  font-family: var(--ff-head); font-size: clamp(1.8rem,4vw,2.8rem);
-  font-weight: 800; letter-spacing: -0.035em;
-  color: #fff; margin-bottom: 12px; position: relative;
-}
-.cta-band p {
-  font-family: var(--ff-body); font-size: clamp(0.94rem,1.5vw,1.05rem);
-  color: rgba(255,255,255,0.75);
-  max-width: 460px; margin: 0 auto 32px;
-  line-height: 1.75; position: relative;
-}
-.cta-actions {
-  display: flex; justify-content: center; gap: 11px;
-  flex-wrap: wrap; position: relative;
-}
+.cta-band h2{font-family:var(--ff-h);font-size:1.55rem;font-weight:800;letter-spacing:-0.035em;color:#fff;margin-bottom:10px;position:relative}
+.cta-band p{font-family:var(--ff-b);font-size:0.95rem;color:rgba(255,255,255,0.75);max-width:440px;margin:0 auto 26px;line-height:1.75;position:relative}
+/* Stacked buttons on mobile */
+.cta-actions{display:flex;flex-direction:column;gap:10px;position:relative}
 
-/* ══════════════════════════════════════
+/* ════════════════════════════════════════════════════════
    FOOTER
-══════════════════════════════════════ */
-footer {
-  background: var(--ink);
-  padding: clamp(44px,6vw,68px) 0 clamp(24px,4vw,36px);
+════════════════════════════════════════════════════════ */
+footer{background:var(--ink);padding:40px 0 24px}
+/* Single column on mobile */
+.footer-grid{display:flex;flex-direction:column;gap:28px;margin-bottom:32px}
+.footer-brand-name{
+  font-family:var(--ff-h);font-size:1.15rem;font-weight:800;
+  letter-spacing:-0.03em;color:#fff;
+  display:flex;align-items:center;gap:8px;margin-bottom:10px;
 }
-.footer-grid {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: clamp(28px,4vw,56px);
-  margin-bottom: clamp(36px,5vw,48px);
-}
-.footer-brand-name {
-  font-family: var(--ff-head); font-size: 1.2rem; font-weight: 800;
-  letter-spacing: -0.03em; color: #fff;
-  display: flex; align-items: center; gap: 8px;
-  margin-bottom: 11px;
-}
-.footer-brand-desc {
-  font-family: var(--ff-body); font-size: 0.84rem;
-  color: rgba(255,255,255,0.45); line-height: 1.72; max-width: 270px;
-}
-.footer-col h5 {
-  font-family: var(--ff-mono); font-size: 0.63rem; font-weight: 500;
-  text-transform: uppercase; letter-spacing: 0.12em;
-  color: rgba(255,255,255,0.3); margin-bottom: 14px;
-}
-.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
-.footer-col a {
-  font-family: var(--ff-body); font-size: 0.84rem;
-  color: rgba(255,255,255,0.5); cursor: pointer; transition: color 0.18s;
-}
-.footer-col a:hover { color: var(--teal-light); }
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.08);
-  padding-top: 20px;
-  display: flex; justify-content: space-between; align-items: center;
-  flex-wrap: wrap; gap: 10px;
-}
-.footer-copy {
-  font-family: var(--ff-mono); font-size: 0.63rem;
-  color: rgba(255,255,255,0.3);
-}
+.footer-brand-desc{font-family:var(--ff-b);font-size:0.83rem;color:rgba(255,255,255,0.45);line-height:1.72;max-width:280px}
+/* Collapsed columns on mobile: 2x2 grid */
+.footer-cols-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.footer-col h5{font-family:var(--ff-m);font-size:0.62rem;font-weight:500;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.3);margin-bottom:12px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.footer-col a{font-family:var(--ff-b);font-size:0.83rem;color:rgba(255,255,255,0.5);cursor:pointer;transition:color 0.18s}
+.footer-col a:hover{color:var(--teal-light)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.08);padding-top:18px;display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center}
+.footer-copy{font-family:var(--ff-m);font-size:0.62rem;color:rgba(255,255,255,0.3)}
 
-/* ══════════════════════════════════════
+/* ════════════════════════════════════════════════════════
    PRICING PAGE
-══════════════════════════════════════ */
-.pricing-hero {
-  padding-top: calc(var(--nav-h) + clamp(56px,9vw,96px));
-  padding-bottom: clamp(52px,7vw,72px);
-  background: linear-gradient(160deg, #eef7f6 0%, #f7f8fa 60%, #eef2ff 100%);
-  text-align: center; position: relative; overflow: hidden;
+════════════════════════════════════════════════════════ */
+.pricing-hero{
+  padding-top:calc(var(--nav-h) + 48px);padding-bottom:44px;
+  background:linear-gradient(160deg,#eef7f6 0%,#f7f8fa 60%,#eef2ff 100%);
+  text-align:center;position:relative;overflow:hidden;
 }
-.pricing-hero::before {
-  content: '';
-  position: absolute; top: -10%; left: 50%; transform: translateX(-50%);
-  width: clamp(350px,75vw,750px); height: clamp(350px,75vw,750px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(13,148,136,0.1) 0%, transparent 65%);
-  pointer-events: none;
+.pricing-hero::before{
+  content:'';position:absolute;top:-10%;left:50%;transform:translateX(-50%);
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(13,148,136,0.1) 0%,transparent 65%);pointer-events:none;
 }
-.ph-eyebrow {
-  font-family: var(--ff-mono); font-size: 0.66rem;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--teal); margin-bottom: 16px; position: relative;
+.ph-eyebrow{font-family:var(--ff-m);font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:14px;position:relative}
+.pricing-hero h1{font-family:var(--ff-h);font-size:1.85rem;font-weight:800;letter-spacing:-0.04em;color:var(--ink);line-height:1.1;margin-bottom:12px;position:relative}
+.pricing-hero p{font-family:var(--ff-b);font-size:0.92rem;color:var(--ink-3);max-width:400px;margin:0 auto 28px;line-height:1.75;position:relative}
+/* Selector stacked on mobile */
+.sel-wrap{display:flex;flex-direction:column;align-items:stretch;gap:10px;margin-bottom:8px;position:relative;padding:0 16px}
+.sel-label{font-family:var(--ff-m);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);text-align:center}
+.country-sel{
+  appearance:none;background:#fff;border:1.5px solid var(--edge-md);border-radius:10px;
+  padding:11px 38px 11px 14px;font-family:var(--ff-h);font-size:0.9rem;font-weight:600;
+  color:var(--ink);cursor:pointer;width:100%;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%230d9488' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+  transition:border-color 0.18s;box-shadow:var(--sh-sm);
 }
-.pricing-hero h1 {
-  font-family: var(--ff-head);
-  font-size: clamp(2.1rem,5vw,3.4rem);
-  font-weight: 800; letter-spacing: -0.04em;
-  color: var(--ink); line-height: 1.08; margin-bottom: 14px;
-  position: relative;
-}
-.pricing-hero p {
-  font-family: var(--ff-body);
-  font-size: clamp(0.92rem,1.5vw,1.04rem);
-  color: var(--ink-3); max-width: 420px;
-  margin: 0 auto 36px; line-height: 1.75; position: relative;
-}
+.country-sel:focus{outline:none;border-color:var(--teal)}
+.curr-note{font-family:var(--ff-m);font-size:0.62rem;color:var(--teal);text-align:center;margin-bottom:32px;position:relative}
 
-/* Country selector */
-.sel-wrap {
-  display: flex; align-items: center; justify-content: center; gap: 12px;
-  flex-wrap: wrap; margin-bottom: 8px; position: relative;
+/* Plans: single column on mobile */
+.plans-grid{display:flex;flex-direction:column;gap:16px;margin-bottom:44px}
+.plan-card{
+  background:var(--card);border:1.5px solid var(--edge);border-radius:var(--r-xl);
+  padding:24px;position:relative;box-shadow:var(--sh-sm);
+  transition:transform 0.24s,box-shadow 0.24s,border-color 0.24s;
 }
-.sel-label {
-  font-family: var(--ff-mono); font-size: 0.66rem;
-  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3);
+.plan-card:hover{transform:translateY(-4px);box-shadow:var(--sh-lg)}
+.plan-card.featured{background:linear-gradient(160deg,#f0fdf9 0%,#ecfdf5 100%);border-color:var(--teal);box-shadow:0 0 0 3px rgba(13,148,136,0.1),var(--sh-lg)}
+.plan-card.featured::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--teal-light));border-radius:var(--r-xl) var(--r-xl) 0 0}
+.plan-badge{
+  position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+  background:var(--teal);color:#fff;font-family:var(--ff-m);font-size:0.58rem;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;padding:3px 12px;border-radius:20px;white-space:nowrap;
+  box-shadow:0 2px 8px rgba(13,148,136,0.3);
 }
-.country-sel {
-  appearance: none;
-  background: #fff; border: 1.5px solid var(--edge-md);
-  border-radius: 10px; padding: 10px 40px 10px 14px;
-  font-family: var(--ff-head); font-size: 0.88rem; font-weight: 600;
-  color: var(--ink); cursor: pointer; min-width: 220px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%230d9488' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 12px center;
-  transition: border-color 0.18s; box-shadow: var(--shadow-sm);
-}
-.country-sel:focus { outline: none; border-color: var(--teal); }
-
-.curr-note {
-  font-family: var(--ff-mono); font-size: 0.63rem;
-  color: var(--teal); text-align: center;
-  margin-bottom: clamp(36px,5vw,56px); position: relative;
-}
-
-/* Plans grid */
-.plans-grid {
-  display: grid; grid-template-columns: repeat(3,1fr);
-  gap: clamp(14px,2.5vw,22px);
-  margin-bottom: clamp(56px,7vw,88px);
-  align-items: start;
-}
-
-.plan-card {
-  background: var(--card); border: 1.5px solid var(--edge);
-  border-radius: var(--r-xl); padding: clamp(22px,3.5vw,34px);
-  position: relative; box-shadow: var(--shadow-sm);
-  transition: transform 0.24s, box-shadow 0.24s, border-color 0.24s;
-}
-.plan-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-.plan-card.featured {
-  background: linear-gradient(160deg, #f0fdf9 0%, #ecfdf5 100%);
-  border-color: var(--teal);
-  box-shadow: 0 0 0 3px rgba(13,148,136,0.1), var(--shadow-lg);
-}
-.plan-card.featured::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--teal), var(--teal-light));
-  border-radius: var(--r-xl) var(--r-xl) 0 0;
-}
-.plan-badge {
-  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-  background: var(--teal); color: #fff;
-  font-family: var(--ff-mono); font-size: 0.59rem; font-weight: 600;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 4px 13px; border-radius: 20px; white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(13,148,136,0.3);
-}
-
-.plan-tier {
-  font-family: var(--ff-mono); font-size: 0.63rem;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--ink-3); margin-bottom: 8px;
-}
-.plan-card.featured .plan-tier { color: var(--teal); }
-
-.plan-tagline {
-  font-family: var(--ff-head); font-size: clamp(0.95rem,1.8vw,1.1rem);
-  font-weight: 700; letter-spacing: -0.02em; color: var(--ink);
-  margin-bottom: 18px; line-height: 1.3;
-}
-
-.plan-price-row {
-  display: flex; align-items: baseline; gap: 3px; margin-bottom: 5px;
-}
-.plan-sym {
-  font-family: var(--ff-head); font-size: 1rem;
-  font-weight: 600; color: var(--ink-3);
-}
-.plan-amt {
-  font-family: var(--ff-head);
-  font-size: clamp(2.3rem,4vw,3rem);
-  font-weight: 800; letter-spacing: -0.04em;
-  color: var(--ink); line-height: 1;
-  transition: all 0.3s ease;
-}
-.plan-card.featured .plan-amt { color: var(--teal); }
-.plan-per { font-family: var(--ff-mono); font-size: 0.7rem; color: var(--ink-3); }
-.plan-note-sub {
-  font-family: var(--ff-mono); font-size: 0.63rem;
-  color: var(--ink-4); margin-bottom: 22px;
-}
-
-.plan-div { border: none; border-top: 1px solid var(--edge); margin: 18px 0; }
-
-.plan-feats {
-  list-style: none; display: flex; flex-direction: column; gap: 10px;
-  margin-bottom: 26px;
-}
-.plan-feats li {
-  display: flex; align-items: flex-start; gap: 9px;
-  font-family: var(--ff-body); font-size: 0.85rem;
-  color: var(--ink-2); line-height: 1.45;
-}
-.feat-tick {
-  width: 17px; height: 17px; border-radius: 50%; flex-shrink: 0; margin-top: 1px;
-  background: var(--teal-dim); border: 1px solid var(--teal-border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.56rem; color: var(--teal); font-weight: 800;
-}
-.plan-card.featured .feat-tick { background: rgba(13,148,136,0.15); }
-
-.plan-btn {
-  width: 100%; padding: 12px; border-radius: 10px;
-  font-family: var(--ff-head); font-size: 0.85rem; font-weight: 700;
-  cursor: pointer; border: none; transition: all 0.18s;
-}
-.pb-outline { background: #fff; border: 1.5px solid var(--edge-md); color: var(--ink-2); }
-.pb-outline:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-dim); }
-.pb-teal   { background: var(--teal); color: #fff; }
-.pb-teal:hover { background: #0b8076; }
-.pb-ghost  { background: var(--card-alt); color: var(--ink-2); border: 1px solid var(--edge); }
-.pb-ghost:hover { background: var(--teal-dim); color: var(--teal); border-color: var(--teal-border); }
+.plan-tier{font-family:var(--ff-m);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px}
+.plan-card.featured .plan-tier{color:var(--teal)}
+.plan-tagline{font-family:var(--ff-h);font-size:0.98rem;font-weight:700;letter-spacing:-0.02em;color:var(--ink);margin-bottom:16px;line-height:1.3}
+.plan-price-row{display:flex;align-items:baseline;gap:3px;margin-bottom:5px}
+.plan-sym{font-family:var(--ff-h);font-size:0.95rem;font-weight:600;color:var(--ink-3)}
+.plan-amt{font-family:var(--ff-h);font-size:2.4rem;font-weight:800;letter-spacing:-0.04em;color:var(--ink);line-height:1;transition:all 0.3s ease}
+.plan-card.featured .plan-amt{color:var(--teal)}
+.plan-per{font-family:var(--ff-m);font-size:0.68rem;color:var(--ink-3)}
+.plan-note-sub{font-family:var(--ff-m);font-size:0.62rem;color:var(--ink-4);margin-bottom:20px}
+.plan-div{border:none;border-top:1px solid var(--edge);margin:16px 0}
+.plan-feats{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.plan-feats li{display:flex;align-items:flex-start;gap:9px;font-family:var(--ff-b);font-size:0.84rem;color:var(--ink-2);line-height:1.45}
+.feat-tick{width:17px;height:17px;border-radius:50%;flex-shrink:0;margin-top:1px;background:var(--teal-dim);border:1px solid var(--teal-bdr);display:flex;align-items:center;justify-content:center;font-size:0.55rem;color:var(--teal);font-weight:800}
+.plan-card.featured .feat-tick{background:rgba(13,148,136,0.15);border-color:rgba(13,148,136,0.35)}
+.plan-btn{width:100%;padding:12px;border-radius:10px;font-family:var(--ff-h);font-size:0.85rem;font-weight:700;cursor:pointer;border:none;transition:all 0.18s}
+.pb-outline{background:#fff;border:1.5px solid var(--edge-md);color:var(--ink-2)}
+.pb-outline:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-dim)}
+.pb-teal{background:var(--teal);color:#fff}
+.pb-teal:hover{background:#0b8076}
+.pb-ghost{background:var(--card-alt);color:var(--ink-2);border:1px solid var(--edge)}
+.pb-ghost:hover{background:var(--teal-dim);color:var(--teal);border-color:var(--teal-bdr)}
 
 /* Comparison table */
-.cmp-wrap { margin-bottom: clamp(52px,7vw,80px); }
-.cmp-wrap h2 {
-  font-family: var(--ff-head); font-size: clamp(1.35rem,3vw,1.9rem);
-  font-weight: 800; letter-spacing: -0.03em;
-  color: var(--ink); margin-bottom: 22px;
-}
-.tbl-scroll { overflow-x: auto; border-radius: var(--r-lg); border: 1px solid var(--edge); box-shadow: var(--shadow-sm); }
-.cmp-table {
-  width: 100%; border-collapse: collapse;
-  background: var(--card); min-width: 540px;
-}
-.cmp-table th {
-  padding: 14px 18px; font-family: var(--ff-mono);
-  font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.1em;
-  color: var(--ink-3); text-align: left;
-  border-bottom: 1px solid var(--edge);
-  background: var(--card-alt);
-}
-.cmp-table th:not(:first-child) { text-align: center; }
-.cmp-table th.hl { color: var(--teal); background: var(--teal-dim); }
-.cmp-table td {
-  padding: 12px 18px; font-family: var(--ff-body);
-  font-size: 0.83rem; color: var(--ink-3);
-  border-bottom: 1px solid rgba(0,0,0,0.04);
-}
-.cmp-table td:not(:first-child) { text-align: center; }
-.cmp-table td.hl { background: rgba(13,148,136,0.04); }
-.cmp-table tr:last-child td { border-bottom: none; }
-.cmp-table .cat-row td {
-  font-family: var(--ff-mono); font-size: 0.6rem;
-  text-transform: uppercase; letter-spacing: 0.1em;
-  color: var(--ink-4); background: var(--card-alt);
-  padding: 9px 18px; font-weight: 500;
-}
-.ck { color: var(--green); font-weight: 700; }
-.xx { color: var(--ink-4); }
+.cmp-wrap{margin-bottom:44px}
+.cmp-wrap h2{font-family:var(--ff-h);font-size:1.35rem;font-weight:800;letter-spacing:-0.03em;color:var(--ink);margin-bottom:18px}
+.tbl-scroll{overflow-x:auto;border-radius:var(--r-lg);border:1px solid var(--edge);box-shadow:var(--sh-sm)}
+.cmp-table{width:100%;border-collapse:collapse;background:var(--card);min-width:540px}
+.cmp-table th{padding:12px 16px;font-family:var(--ff-m);font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-3);text-align:left;border-bottom:1px solid var(--edge);background:var(--card-alt)}
+.cmp-table th:not(:first-child){text-align:center}
+.cmp-table th.hl{color:var(--teal);background:var(--teal-dim)}
+.cmp-table td{padding:11px 16px;font-family:var(--ff-b);font-size:0.82rem;color:var(--ink-3);border-bottom:1px solid rgba(0,0,0,0.04)}
+.cmp-table td:not(:first-child){text-align:center}
+.cmp-table td.hl{background:rgba(13,148,136,0.04)}
+.cmp-table tr:last-child td{border-bottom:none}
+.cmp-table .cat-row td{font-family:var(--ff-m);font-size:0.59rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-4);background:var(--card-alt);padding:9px 16px}
+.ck{color:var(--green);font-weight:700}.xx{color:var(--ink-4)}
+/* Scroll hint on mobile */
+.tbl-hint{font-family:var(--ff-m);font-size:0.62rem;color:var(--ink-4);text-align:center;margin-bottom:8px}
 
 /* FAQ */
-.faq-wrap { max-width: 660px; margin-bottom: clamp(52px,7vw,80px); }
-.faq-wrap h2 {
-  font-family: var(--ff-head); font-size: clamp(1.35rem,3vw,1.9rem);
-  font-weight: 800; letter-spacing: -0.03em;
-  color: var(--ink); margin-bottom: 22px;
-}
-.faq-item {
-  border-bottom: 1px solid var(--edge); padding: 17px 0; cursor: pointer;
-}
-.faq-q {
-  font-family: var(--ff-head); font-size: 0.9rem; font-weight: 600;
-  color: var(--ink);
-  display: flex; justify-content: space-between; align-items: center; gap: 14px;
-  user-select: none;
-}
-.faq-q::after {
-  content: '+'; color: var(--teal);
-  font-size: 1.15rem; font-weight: 300; flex-shrink: 0;
-  transition: transform 0.2s;
-}
-.faq-item.open .faq-q::after { transform: rotate(45deg); }
-.faq-a {
-  font-family: var(--ff-body); font-size: 0.87rem;
-  color: var(--ink-3); line-height: 1.75;
-  max-height: 0; overflow: hidden;
-  transition: max-height 0.3s ease, padding-top 0.3s;
-}
-.faq-item.open .faq-a { max-height: 200px; padding-top: 11px; }
+.faq-wrap{margin-bottom:44px}
+.faq-wrap h2{font-family:var(--ff-h);font-size:1.35rem;font-weight:800;letter-spacing:-0.03em;color:var(--ink);margin-bottom:18px}
+.faq-item{border-bottom:1px solid var(--edge);padding:16px 0;cursor:pointer}
+.faq-q{font-family:var(--ff-h);font-size:0.88rem;font-weight:600;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:12px;user-select:none}
+.faq-q::after{content:'+';color:var(--teal);font-size:1.1rem;font-weight:300;flex-shrink:0;transition:transform 0.2s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{font-family:var(--ff-b);font-size:0.85rem;color:var(--ink-3);line-height:1.75;max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding-top 0.3s}
+.faq-item.open .faq-a{max-height:200px;padding-top:10px}
 
-/* ══════════════════════════════════════
-   RESPONSIVE BREAKPOINTS
-══════════════════════════════════════ */
-
-/* Large tablet: ≤1100px */
-@media (max-width: 1100px) {
-  .solutions-grid { grid-template-columns: 1fr; }
-  .why-grid { grid-template-columns: repeat(2,1fr); }
-}
-
-/* Tablet: ≤980px */
-@media (max-width: 980px) {
-  .nav-center, .nav-btn-ghost { display: none; }
-  .nav-hamburger { display: flex; }
-
-  .hero-inner { grid-template-columns: 1fr; }
-  .hero-visual { max-width: 520px; }
-  .fc-a { right: 0; }
-  .fc-b { left: 0; }
-
-  .cs-grid { grid-template-columns: 1fr; }
-
-  .testi-grid { grid-template-columns: 1fr 1fr; }
-  .testi-grid .testi-card:last-child { grid-column: 1/-1; max-width: 480px; margin: 0 auto; width: 100%; }
-
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-
-  .plans-grid { grid-template-columns: 1fr; max-width: 460px; margin-left: auto; margin-right: auto; }
-  .plan-card.featured { order: -1; }
-}
-
-/* Mobile: ≤640px */
-@media (max-width: 640px) {
-  .hero-inner { padding-top: 52px; padding-bottom: 44px; }
-  .hero-actions { flex-direction: column; }
-  .hero-actions .btn { width: 100%; justify-content: center; }
-  .hero-stats { gap: 18px; }
-  .fc-a, .fc-b { display: none; }
-
-  .solutions-grid { grid-template-columns: 1fr; }
-
-  .why-grid { grid-template-columns: 1fr; }
-
-  .testi-grid { grid-template-columns: 1fr; }
-  .testi-grid .testi-card:last-child { grid-column: auto; max-width: 100%; }
-
-  .cs-metrics { grid-template-columns: 1fr 1fr; }
-
-  .cta-band { padding: 36px 20px; }
-  .cta-actions { flex-direction: column; }
-  .cta-actions .btn { width: 100%; justify-content: center; }
-
-  .footer-grid { grid-template-columns: 1fr; }
-  .footer-bottom { flex-direction: column; text-align: center; }
-
-  .plans-grid { max-width: 100%; grid-template-columns: 1fr; }
-  .sel-wrap { flex-direction: column; align-items: stretch; }
-  .country-sel { width: 100%; min-width: 0; }
-
-  .faq-wrap { max-width: 100%; }
-  .logo-row { gap: 14px; }
-}
-
-/* Small mobile: ≤400px */
-@media (max-width: 400px) {
-  .hero-h1 { font-size: 2rem; }
-  .cs-metrics { grid-template-columns: 1fr; }
-  .plan-amt { font-size: 2.1rem; }
-}
-
-/* ══════════════════════════════════════
+/* ════════════════════════════════════════════════════════
    CONTACT PAGE
-══════════════════════════════════════ */
-.contact-page {
-  min-height: 100svh;
-  padding-top: var(--nav-h);
-  background: linear-gradient(160deg, #eef7f6 0%, #f7f8fa 55%, #eef2ff 100%);
+════════════════════════════════════════════════════════ */
+.contact-page{min-height:100svh;padding-top:var(--nav-h);background:linear-gradient(160deg,#eef7f6 0%,#f7f8fa 55%,#eef2ff 100%)}
+.contact-hero{padding:44px 16px 36px;text-align:center;position:relative;overflow:hidden}
+.contact-hero::before{content:'';position:absolute;top:-5%;left:50%;transform:translateX(-50%);width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(13,148,136,0.09) 0%,transparent 65%);pointer-events:none}
+.contact-hero-eyebrow{font-family:var(--ff-m);font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:12px;position:relative}
+.contact-hero h1{font-family:var(--ff-h);font-size:1.85rem;font-weight:800;letter-spacing:-0.04em;color:var(--ink);line-height:1.1;margin-bottom:12px;position:relative}
+.contact-hero p{font-family:var(--ff-b);font-size:0.92rem;color:var(--ink-3);max-width:420px;margin:0 auto;line-height:1.75;position:relative}
+/* Info cards: single column on mobile */
+.contact-body{padding:0 0 52px}
+.contact-grid{display:flex;flex-direction:column;gap:24px}
+.contact-info-panel{display:flex;flex-direction:column;gap:14px}
+.contact-info-card{background:var(--card);border:1px solid var(--edge);border-radius:var(--r-lg);padding:20px;box-shadow:var(--sh-sm)}
+.cic-hdr{display:flex;align-items:center;gap:11px;margin-bottom:12px}
+.cic-icon{width:38px;height:38px;border-radius:10px;background:var(--teal-dim);border:1px solid var(--teal-bdr);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.cic-title{font-family:var(--ff-h);font-size:0.9rem;font-weight:700;color:var(--ink);letter-spacing:-0.02em}
+.cic-body{font-family:var(--ff-b);font-size:0.84rem;color:var(--ink-3);line-height:1.7}
+.cic-link{font-family:var(--ff-m);font-size:0.76rem;color:var(--teal);font-weight:500;display:inline-block;margin-top:6px;transition:color 0.18s}
+.cic-link:hover{color:#0b8076}
+.contact-offices{display:flex;flex-direction:column;gap:10px}
+.office-row{display:flex;align-items:center;gap:9px;font-family:var(--ff-b);font-size:0.83rem;color:var(--ink-3)}
+.office-flag{font-size:1rem}.office-name{color:var(--ink-2)}
+
+/* Contact form */
+.contact-form-card{background:var(--card);border:1px solid var(--edge);border-radius:var(--r-xl);padding:24px;box-shadow:var(--sh-md);position:relative;overflow:hidden}
+.contact-form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--teal-light),var(--indigo))}
+.cf-title{font-family:var(--ff-h);font-size:1.2rem;font-weight:800;letter-spacing:-0.03em;color:var(--ink);margin-bottom:5px}
+.cf-sub{font-family:var(--ff-b);font-size:0.86rem;color:var(--ink-3);margin-bottom:22px;line-height:1.6}
+/* 2-col row degrades to 1-col on mobile */
+.cf-row{display:flex;flex-direction:column;gap:0}
+.cf-group{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.cf-label{font-family:var(--ff-m);font-size:0.62rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-2)}
+.cf-required{color:var(--red);margin-left:2px}
+.cf-input,.cf-select,.cf-textarea{
+  font-family:var(--ff-b);font-size:0.9rem;color:var(--ink);
+  background:var(--card-alt);border:1.5px solid var(--edge-md);
+  border-radius:var(--r-md);padding:11px 13px;
+  transition:border-color 0.18s,box-shadow 0.18s;width:100%;outline:none;
+}
+.cf-input::placeholder,.cf-textarea::placeholder{color:var(--ink-4)}
+.cf-input:focus,.cf-select:focus,.cf-textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(13,148,136,0.1);background:#fff}
+.cf-select{
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%230d9488' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+  padding-right:36px;cursor:pointer;background-color:var(--card-alt);
+}
+.cf-textarea{resize:vertical;min-height:100px;line-height:1.6}
+.cf-checkbox-row{display:flex;align-items:flex-start;gap:10px;margin:16px 0 20px}
+.cf-checkbox{width:17px;height:17px;border-radius:4px;border:1.5px solid var(--edge-md);background:var(--card-alt);flex-shrink:0;margin-top:1px;cursor:pointer;accent-color:var(--teal)}
+.cf-consent-text{font-family:var(--ff-b);font-size:0.79rem;color:var(--ink-3);line-height:1.5}
+.cf-consent-text a{color:var(--teal);text-decoration:underline}
+.cf-submit{
+  width:100%;padding:14px;background:var(--teal);color:#fff;border-radius:10px;border:none;
+  font-family:var(--ff-h);font-size:0.9rem;font-weight:700;cursor:pointer;
+  transition:background 0.18s,transform 0.15s,box-shadow 0.18s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.cf-submit:hover{background:#0b8076;transform:translateY(-1px);box-shadow:0 6px 20px rgba(13,148,136,0.28)}
+.cf-submit:disabled{background:var(--ink-4);cursor:not-allowed;transform:none;box-shadow:none}
+.cf-spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.35);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cf-toast{display:none;align-items:center;gap:11px;padding:13px 16px;border-radius:var(--r-md);font-family:var(--ff-b);font-size:0.86rem;margin-top:14px;animation:toastIn 0.35s ease}
+@keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.cf-toast.success{background:#f0fdf4;border:1px solid #86efac;color:#166534}
+.cf-toast.error{background:#fff1f2;border:1px solid #fca5a5;color:#991b1b}
+.cf-toast.show{display:flex}
+.cf-toast-icon{font-size:1.1rem;flex-shrink:0}
+
+/* ════════════════════════════════════════════════════════
+   ▶ TABLET  min-width: 600px
+════════════════════════════════════════════════════════ */
+@media (min-width:600px) {
+  .container{padding:0 24px}
+  .section{padding:64px 0}
+  .hero-inner{padding:56px 24px 60px}
+  .hero-h1{font-size:2.8rem}
+  .hero-actions{flex-direction:row}
+  .hero-actions .btn{width:auto}
+  .section-title{font-size:2.2rem}
+  .pricing-hero{padding-top:calc(var(--nav-h) + 60px);padding-bottom:56px}
+  .pricing-hero h1{font-size:2.4rem}
+  .sel-wrap{flex-direction:row;align-items:center;justify-content:center;gap:12px;padding:0}
+  .country-sel{width:auto;min-width:220px}
+  .plans-grid{display:grid;grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}
+  .cf-row{flex-direction:row;gap:14px}
+  .cf-row .cf-group{flex:1;margin-bottom:14px}
+  .cta-band{padding:48px 36px}
+  .cta-band h2{font-size:2rem}
+  .cta-actions{flex-direction:row;justify-content:center}
+  .cta-actions .btn{width:auto}
+  .contact-hero{padding:56px 24px 44px}
+  .contact-hero h1{font-size:2.4rem}
+  .contact-info-panel{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .footer-grid{flex-direction:row;flex-wrap:wrap;gap:0}
+  .footer-brand{flex:0 0 100%;margin-bottom:24px}
+  .footer-cols-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;width:100%}
+  .footer-bottom{flex-direction:row;justify-content:space-between;text-align:left}
+  .logo-row{justify-content:center;overflow-x:visible;flex-wrap:wrap}
+  .solutions-grid{display:grid;grid-template-columns:1fr 1fr}
+  .why-grid{display:grid;grid-template-columns:1fr 1fr}
+  .testi-grid{display:grid;grid-template-columns:1fr 1fr}
 }
 
-.contact-hero {
-  padding: clamp(56px,9vw,100px) 0 clamp(40px,6vw,64px);
-  text-align: center;
-  position: relative; overflow: hidden;
-}
-.contact-hero::before {
-  content: '';
-  position: absolute; top: -5%; left: 50%; transform: translateX(-50%);
-  width: clamp(300px,70vw,700px); height: clamp(300px,70vw,700px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(13,148,136,0.09) 0%, transparent 65%);
-  pointer-events: none;
-}
-.contact-hero-eyebrow {
-  font-family: var(--ff-mono); font-size: 0.66rem;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--teal); margin-bottom: 14px; position: relative;
-}
-.contact-hero h1 {
-  font-family: var(--ff-head);
-  font-size: clamp(2rem,5vw,3.2rem);
-  font-weight: 800; letter-spacing: -0.04em;
-  color: var(--ink); line-height: 1.08; margin-bottom: 14px;
-  position: relative;
-}
-.contact-hero p {
-  font-family: var(--ff-body);
-  font-size: clamp(0.92rem,1.5vw,1.04rem);
-  color: var(--ink-3); max-width: 440px;
-  margin: 0 auto; line-height: 1.75; position: relative;
+/* ════════════════════════════════════════════════════════
+   ▶ LAPTOP  min-width: 900px
+════════════════════════════════════════════════════════ */
+@media (min-width:900px) {
+  :root{--nav-h:68px}
+  .container{padding:0 40px}
+  .section{padding:88px 0}
+
+  /* Nav: show desktop links, hide hamburger */
+  .nav{padding:0 clamp(24px,4vw,60px)}
+  .nav-center{display:flex;justify-content:center;gap:4px;flex:1}
+  .nav-link{font-family:var(--ff-h);font-size:0.82rem;font-weight:500;color:var(--ink-3);padding:7px 13px;border-radius:8px;cursor:pointer;transition:color 0.18s,background 0.18s;white-space:nowrap}
+  .nav-link:hover{color:var(--teal);background:var(--teal-dim)}
+  .nav-btn-ghost{display:inline-flex;font-family:var(--ff-h);font-size:0.82rem;font-weight:600;color:var(--ink-2);padding:8px 16px;border-radius:8px;border:1px solid var(--edge-md);background:transparent;transition:all 0.18s}
+  .nav-btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+  .nav-hamburger{display:none}
+
+  /* Hero: two-column */
+  .hero-inner{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:clamp(36px,5vw,72px);align-items:center;
+    padding:80px clamp(24px,4vw,60px);
+    max-width:1200px;margin:0 auto;
+  }
+  .hero-visual{display:block;position:relative;animation:fadeUp 0.75s 0.18s ease both}
+  .hero-h1{font-size:clamp(2.8rem,4.5vw,3.8rem)}
+  .hero-sub{font-size:1.05rem}
+  .hero-stats{display:flex;gap:36px;grid-template-columns:unset;padding-top:28px}
+  .stat-n{font-size:clamp(1.6rem,2.5vw,2.1rem)}
+
+  .section-title{font-size:clamp(2rem,3.5vw,2.9rem)}
+
+  /* Solutions: 3-col */
+  .solutions-grid{grid-template-columns:repeat(3,1fr);gap:20px}
+  .sol-card{padding:32px}
+
+  /* CareStream: 2-col */
+  .cs-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,6vw,80px);align-items:center}
+
+  /* Why: 4-col */
+  .why-grid{grid-template-columns:repeat(4,1fr);gap:18px}
+
+  /* Testimonials: 3-col */
+  .testi-grid{grid-template-columns:repeat(3,1fr);gap:20px}
+
+  /* Pricing */
+  .pricing-hero h1{font-size:clamp(2.4rem,4vw,3.4rem)}
+  .plans-grid{grid-template-columns:repeat(3,1fr);max-width:none;gap:20px}
+  .plan-card.featured{order:0}
+
+  /* CTA band */
+  .cta-band{padding:68px 56px}
+  .cta-band h2{font-size:clamp(2rem,3.5vw,2.8rem)}
+
+  /* Contact */
+  .contact-hero{padding:72px 40px 52px}
+  .contact-hero h1{font-size:clamp(2.2rem,4vw,3.1rem)}
+  .contact-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:clamp(28px,4vw,64px);align-items:start}
+  .contact-info-panel{display:flex;flex-direction:column;gap:14px}
+  .contact-form-card{padding:36px}
+  .cf-title{font-size:1.4rem}
+
+  /* Footer */
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:clamp(28px,4vw,56px)}
+  .footer-brand{margin-bottom:0}
+  .footer-cols-grid{display:contents}
+  .footer-bottom{flex-direction:row;text-align:left}
+  .footer-col{display:block}
 }
 
-/* Contact body grid */
-.contact-body {
-  padding: 0 0 clamp(64px,8vw,96px);
-}
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.55fr;
-  gap: clamp(32px,5vw,72px);
-  align-items: start;
-}
-
-/* Left info panel */
-.contact-info-panel {
-  display: flex; flex-direction: column; gap: 24px;
-}
-.contact-info-card {
-  background: var(--card);
-  border: 1px solid var(--edge);
-  border-radius: var(--r-lg);
-  padding: clamp(20px,3vw,28px);
-  box-shadow: var(--shadow-sm);
-}
-.contact-info-card-header {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 14px;
-}
-.cic-icon {
-  width: 40px; height: 40px; border-radius: 11px;
-  background: var(--teal-dim); border: 1px solid var(--teal-border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem; flex-shrink: 0;
-}
-.cic-title {
-  font-family: var(--ff-head); font-size: 0.92rem;
-  font-weight: 700; color: var(--ink); letter-spacing: -0.02em;
-}
-.cic-body {
-  font-family: var(--ff-body); font-size: 0.85rem;
-  color: var(--ink-3); line-height: 1.7;
-}
-.cic-link {
-  font-family: var(--ff-mono); font-size: 0.78rem;
-  color: var(--teal); font-weight: 500;
-  display: inline-block; margin-top: 6px;
-  transition: color 0.18s;
-}
-.cic-link:hover { color: #0b8076; }
-
-.contact-offices {
-  display: flex; flex-direction: column; gap: 11px;
-}
-.office-row {
-  display: flex; align-items: center; gap: 10px;
-  font-family: var(--ff-body); font-size: 0.84rem; color: var(--ink-3);
-}
-.office-flag { font-size: 1rem; }
-.office-name { color: var(--ink-2); font-weight: 400; }
-
-/* ── Contact Form ── */
-.contact-form-card {
-  background: var(--card);
-  border: 1px solid var(--edge);
-  border-radius: var(--r-xl);
-  padding: clamp(28px,4vw,44px);
-  box-shadow: var(--shadow-md);
-  position: relative; overflow: hidden;
-}
-.contact-form-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--teal), var(--teal-light), var(--indigo));
-}
-
-.cf-title {
-  font-family: var(--ff-head); font-size: clamp(1.2rem,2.5vw,1.5rem);
-  font-weight: 800; letter-spacing: -0.03em; color: var(--ink);
-  margin-bottom: 6px;
-}
-.cf-sub {
-  font-family: var(--ff-body); font-size: 0.88rem;
-  color: var(--ink-3); margin-bottom: 28px; line-height: 1.6;
-}
-
-.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.cf-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
-.cf-group:last-of-type { margin-bottom: 0; }
-
-.cf-label {
-  font-family: var(--ff-mono); font-size: 0.64rem;
-  font-weight: 500; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--ink-2);
-}
-.cf-required { color: #ef4444; margin-left: 2px; }
-
-.cf-input, .cf-select, .cf-textarea {
-  font-family: var(--ff-body); font-size: 0.9rem;
-  color: var(--ink);
-  background: var(--card-alt);
-  border: 1.5px solid var(--edge-md);
-  border-radius: var(--r-md);
-  padding: 11px 14px;
-  transition: border-color 0.18s, box-shadow 0.18s;
-  width: 100%;
-  outline: none;
-}
-.cf-input::placeholder, .cf-textarea::placeholder { color: var(--ink-4); }
-.cf-input:focus, .cf-select:focus, .cf-textarea:focus {
-  border-color: var(--teal);
-  box-shadow: 0 0 0 3px rgba(13,148,136,0.1);
-  background: #fff;
-}
-.cf-select {
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%230d9488' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 12px center;
-  padding-right: 38px; cursor: pointer;
-  background-color: var(--card-alt);
-}
-.cf-textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
-
-.cf-checkbox-row {
-  display: flex; align-items: flex-start; gap: 10px;
-  margin: 18px 0 24px;
-}
-.cf-checkbox {
-  width: 17px; height: 17px; border-radius: 4px;
-  border: 1.5px solid var(--edge-md);
-  background: var(--card-alt);
-  flex-shrink: 0; margin-top: 1px; cursor: pointer;
-  accent-color: var(--teal);
-}
-.cf-consent-text {
-  font-family: var(--ff-body); font-size: 0.8rem;
-  color: var(--ink-3); line-height: 1.5;
-}
-.cf-consent-text a { color: var(--teal); text-decoration: underline; }
-
-.cf-submit {
-  width: 100%; padding: 14px;
-  background: var(--teal); color: #fff;
-  border-radius: 10px; border: none;
-  font-family: var(--ff-head); font-size: 0.92rem; font-weight: 700;
-  cursor: pointer;
-  transition: background 0.18s, transform 0.15s, box-shadow 0.18s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.cf-submit:hover {
-  background: #0b8076;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(13,148,136,0.28);
-}
-.cf-submit:disabled {
-  background: var(--ink-4); cursor: not-allowed; transform: none; box-shadow: none;
-}
-
-.cf-spinner {
-  width: 16px; height: 16px;
-  border: 2px solid rgba(255,255,255,0.35);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  display: none;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* Success / error states */
-.cf-toast {
-  display: none;
-  align-items: center; gap: 12px;
-  padding: 14px 18px;
-  border-radius: var(--r-md);
-  font-family: var(--ff-body); font-size: 0.88rem;
-  margin-top: 16px;
-  animation: toastIn 0.35s ease;
-}
-@keyframes toastIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.cf-toast.success {
-  background: #f0fdf4; border: 1px solid #86efac; color: #166534;
-}
-.cf-toast.error {
-  background: #fff1f2; border: 1px solid #fca5a5; color: #991b1b;
-}
-.cf-toast.show { display: flex; }
-.cf-toast-icon { font-size: 1.1rem; flex-shrink: 0; }
-
-/* Responsive contact */
-@media (max-width: 860px) {
-  .contact-grid { grid-template-columns: 1fr; }
-  .contact-info-panel { flex-direction: row; flex-wrap: wrap; }
-  .contact-info-card { flex: 1 1 260px; }
-}
-@media (max-width: 560px) {
-  .cf-row { grid-template-columns: 1fr; }
-  .contact-info-panel { flex-direction: column; }
+/* ════════════════════════════════════════════════════════
+   ▶ DESKTOP  min-width: 1200px
+════════════════════════════════════════════════════════ */
+@media (min-width:1200px) {
+  .container{padding:0 60px}
+  .section{padding:108px 0}
+  .hero-inner{padding:100px 60px;gap:80px}
+  .hero-h1{font-size:4rem}
+  .section-title{font-size:3rem}
+  .pricing-hero h1{font-size:3.5rem}
+  .contact-hero h1{font-size:3.2rem}
+  .cta-band h2{font-size:2.8rem}
+  .sol-card{padding:38px}
+  .hero::before{width:650px;height:650px}
+  .hero::after{width:420px;height:420px}
 }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════
-     NAV (fixed, shared)
-══════════════════════════════════════ -->
+<!-- ════════════════════════════════════════
+     NAV
+════════════════════════════════════════ -->
 <nav class="nav">
   <div class="nav-logo" onclick="goPage('home')">
     <div class="nav-logo-mark">Z</div>
@@ -1439,7 +783,6 @@ footer {
   </div>
 </nav>
 
-<!-- Mobile drawer -->
 <div class="mobile-drawer" id="drawer">
   <span class="drawer-link" onclick="goPage('home');closeDrawer()">Home</span>
   <span class="drawer-link" onclick="jumpTo('solutions');closeDrawer()">Solutions</span>
@@ -1450,61 +793,38 @@ footer {
   <span class="drawer-link drawer-cta" onclick="goPage('contact');closeDrawer()">Get a Demo →</span>
 </div>
 
-<!-- ══════════════════════════════════
+<!-- ════════════════════════════════════════
      HOME PAGE
-══════════════════════════════════════ -->
+════════════════════════════════════════ -->
 <div class="page active" id="page-home">
 
   <!-- HERO -->
   <section class="hero">
     <div class="hero-grid-lines"></div>
     <div class="hero-inner">
-
       <div class="hero-content">
-        <div class="hero-pill">
-          <span class="pill-dot"></span>
-          Cloud-native enterprise platform
-        </div>
-        <h1 class="hero-h1">
-          People. <span class="hl-teal">Conversations.</span><br>
-          <span class="hl-indigo">Compliance.</span>
-        </h1>
-        <p class="hero-sub">
-          Zenerly unifies HR management, AI-powered customer service, and tax compliance into one seamless cloud platform — built for teams that operate across borders.
-        </p>
+        <div class="hero-pill"><span class="pill-dot"></span>Cloud-native enterprise platform</div>
+        <h1 class="hero-h1">People. <span class="hl-teal">Conversations.</span><br><span class="hl-indigo">Compliance.</span></h1>
+        <p class="hero-sub">Zenerly unifies HR management, AI-powered customer service, and tax compliance into one seamless cloud platform — built for teams operating across borders.</p>
         <div class="hero-actions">
-          <button class="btn btn-teal btn-lg" onclick="goPage('pricing')">
-            See Pricing <span class="arrow-i">→</span>
-          </button>
-          <button class="btn btn-outline btn-lg">Request a Demo</button>
+          <button class="btn btn-teal btn-lg btn-full" onclick="goPage('pricing')">See Pricing <span class="arrow-i">→</span></button>
+          <button class="btn btn-outline btn-lg btn-full" onclick="goPage('contact')">Request a Demo</button>
         </div>
         <div class="hero-stats">
-          <div>
-            <div class="stat-n">2,400+</div>
-            <div class="stat-l">Organisations</div>
-          </div>
-          <div>
-            <div class="stat-n">18</div>
-            <div class="stat-l">Countries</div>
-          </div>
-          <div>
-            <div class="stat-n">99.97%</div>
-            <div class="stat-l">Uptime SLA</div>
-          </div>
-          <div>
-            <div class="stat-n">4.2M+</div>
-            <div class="stat-l">Chats Resolved</div>
-          </div>
+          <div><div class="stat-n">2,400+</div><div class="stat-l">Organisations</div></div>
+          <div><div class="stat-n">18</div><div class="stat-l">Countries</div></div>
+          <div><div class="stat-n">99.97%</div><div class="stat-l">Uptime SLA</div></div>
+          <div><div class="stat-n">4.2M+</div><div class="stat-l">Chats Resolved</div></div>
         </div>
       </div>
 
+      <!-- Dashboard panel — visible tablet+ -->
       <div class="hero-visual">
         <div class="float-card fc-b">
           <div class="fc-label">Compliance Score</div>
           <div class="fc-val">94%</div>
           <div class="fc-sub">↑ GDPR · SOC2 · ISO 27001</div>
         </div>
-
         <div class="hero-panel">
           <div class="panel-hdr">
             <span class="panel-title">Workforce Overview</span>
@@ -1523,24 +843,11 @@ footer {
             <div class="sp-bar hi" style="height:100%"></div>
           </div>
           <div class="alert-list">
-            <div class="alert-row">
-              <span class="adot adot-g"></span>
-              <span class="a-text">Payroll disbursed · 1,248 employees · $2.4M</span>
-              <span class="a-time">1h ago</span>
-            </div>
-            <div class="alert-row">
-              <span class="adot adot-a"></span>
-              <span class="a-text">CareStream resolved 847 tickets today</span>
-              <span class="a-time">now</span>
-            </div>
-            <div class="alert-row">
-              <span class="adot adot-r"></span>
-              <span class="a-text">Tax filing deadline: MY Q3 in 5 days</span>
-              <span class="a-time">alert</span>
-            </div>
+            <div class="alert-row"><span class="adot adot-g"></span><span class="a-text">Payroll disbursed · 1,248 employees · $2.4M</span><span class="a-time">1h ago</span></div>
+            <div class="alert-row"><span class="adot adot-a"></span><span class="a-text">CareStream resolved 847 tickets today</span><span class="a-time">now</span></div>
+            <div class="alert-row"><span class="adot adot-r"></span><span class="a-text">Tax filing deadline: MY Q3 in 5 days</span><span class="a-time">alert</span></div>
           </div>
         </div>
-
         <div class="float-card fc-a">
           <div class="fc-label">CareStream AI</div>
           <div class="fc-val">98.2%</div>
@@ -1571,18 +878,12 @@ footer {
     <div class="container">
       <div class="eyebrow">Our Platform</div>
       <h2 class="section-title">Three products. One unified platform.</h2>
-      <p class="section-body">Purpose-built modules that share a single data layer — so HR data, customer conversations, and tax records are always in sync.</p>
-
+      <p class="section-body">Purpose-built modules sharing a single data layer — so HR data, customer conversations, and tax records are always in sync.</p>
       <div class="solutions-grid">
-
-        <!-- HRMS -->
         <div class="sol-card sol-card-hrms">
           <div class="sol-card-accent accent-teal"></div>
           <div class="sol-icon-wrap sic-teal">👥</div>
-          <div style="display:flex;align-items:center;gap:9px;margin-bottom:5px;">
-            <div class="sol-name">HRMS</div>
-            <span class="chip chip-teal">Core</span>
-          </div>
+          <div class="sol-header-row"><div class="sol-name">HRMS</div><span class="chip chip-teal">Core</span></div>
           <div class="sol-tagline">Full-cycle people management, from hire to retire.</div>
           <div class="sol-desc">Automate payroll, benefits, performance reviews, and leave across any number of countries — with one unified employee record.</div>
           <ul class="sol-features">
@@ -1593,18 +894,13 @@ footer {
             <li class="f-teal">Onboarding & offboarding workflows</li>
           </ul>
         </div>
-
-        <!-- CareStream -->
         <div class="sol-card sol-card-cs">
           <div class="sol-card-accent accent-indigo"></div>
           <span class="cs-badge">AI-Powered</span>
           <div class="sol-icon-wrap sic-indigo">💬</div>
-          <div style="display:flex;align-items:center;gap:9px;margin-bottom:5px;">
-            <div class="sol-name sol-name-cs">CareStream</div>
-            <span class="chip chip-indigo">New</span>
-          </div>
-          <div class="sol-tagline" style="color:var(--indigo);opacity:0.75;">Intelligent Conversations. Better Customer Care.</div>
-          <div class="sol-desc">AI-native customer service assistant that resolves queries instantly, escalates with empathy, and learns from every interaction — across every channel.</div>
+          <div class="sol-header-row"><div class="sol-name sol-name-cs">CareStream</div><span class="chip chip-indigo">New</span></div>
+          <div class="sol-tagline" style="color:var(--indigo);opacity:0.8">Intelligent Conversations. Better Customer Care.</div>
+          <div class="sol-desc">AI-native customer service assistant that resolves queries instantly, escalates with empathy, and learns from every interaction.</div>
           <ul class="sol-features">
             <li class="f-indigo">Omnichannel AI chat, voice & email</li>
             <li class="f-indigo">Intent detection & auto-resolution</li>
@@ -1613,17 +909,12 @@ footer {
             <li class="f-indigo">CRM, helpdesk & ERP integrations</li>
           </ul>
         </div>
-
-        <!-- Tax Compliance -->
         <div class="sol-card sol-card-tax">
           <div class="sol-card-accent accent-amber"></div>
           <div class="sol-icon-wrap sic-amber">📋</div>
-          <div style="display:flex;align-items:center;gap:9px;margin-bottom:5px;">
-            <div class="sol-name">Tax Compliance</div>
-            <span class="chip chip-amber">Multi-jurisdiction</span>
-          </div>
+          <div class="sol-header-row"><div class="sol-name">Tax Compliance</div><span class="chip chip-amber">Multi-jurisdiction</span></div>
           <div class="sol-tagline">Stay audit-ready across every jurisdiction, always.</div>
-          <div class="sol-desc">Jurisdiction-aware rule engine that auto-applies the right tax codes, filing deadlines, and compliance frameworks — no manual updates needed.</div>
+          <div class="sol-desc">Jurisdiction-aware rule engine that auto-applies the right tax codes, filing deadlines, and compliance frameworks.</div>
           <ul class="sol-features">
             <li class="f-amber">Real-time tax code & rate updates</li>
             <li class="f-amber">Automated filings & e-submissions</li>
@@ -1632,7 +923,6 @@ footer {
             <li class="f-amber">Board-level compliance dashboards</li>
           </ul>
         </div>
-
       </div>
     </div>
   </section>
@@ -1641,41 +931,21 @@ footer {
   <section class="section cs-section" id="carestream">
     <div class="container">
       <div class="cs-grid">
-        <!-- Chat demo left -->
         <div>
           <div class="chat-demo">
             <div class="chat-topbar">
               <div class="chat-av">🤖</div>
-              <div>
-                <div class="chat-nm">CareStream AI</div>
-                <div class="chat-st">● Online · avg 0.8s response</div>
-              </div>
+              <div><div class="chat-nm">CareStream AI</div><div class="chat-st">● Online · avg 0.8s response</div></div>
               <span class="chat-dot-live"></span>
             </div>
             <div class="chat-body">
-              <div class="msg msg-u">
-                <div class="msg-bubble">Hi, I need to update my billing for invoice #8847</div>
-                <div class="msg-time">10:24 AM</div>
-              </div>
-              <div class="msg msg-b">
-                <div class="msg-bubble">Of course! I've verified your account. Would you like to update the card on file or add a new payment method?</div>
-                <div class="msg-time">10:24 AM · CareStream AI</div>
-              </div>
-              <div class="msg msg-u">
-                <div class="msg-bubble">Update the card on file please</div>
-                <div class="msg-time">10:25 AM</div>
-              </div>
-              <div class="msg msg-b">
-                <div class="msg-bubble">Done ✓ A secure link has been sent to your registered email. Anything else I can help with today?</div>
-                <div class="msg-time">10:25 AM · CareStream AI</div>
-              </div>
+              <div class="msg msg-u"><div class="msg-bubble">Hi, I need to update my billing for invoice #8847</div><div class="msg-time">10:24 AM</div></div>
+              <div class="msg msg-b"><div class="msg-bubble">Of course! I've verified your account. Would you like to update the card on file or add a new payment method?</div><div class="msg-time">10:24 AM · CareStream AI</div></div>
+              <div class="msg msg-u"><div class="msg-bubble">Update the card on file please</div><div class="msg-time">10:25 AM</div></div>
+              <div class="msg msg-b"><div class="msg-bubble">Done ✓ A secure link has been sent to your registered email. Anything else I can help with?</div><div class="msg-time">10:25 AM · CareStream AI</div></div>
             </div>
-            <div class="chat-input-bar">
-              <div class="chat-inp">Type a message…</div>
-              <button class="chat-send-btn">↑</button>
-            </div>
+            <div class="chat-input-bar"><div class="chat-inp">Type a message…</div><button class="chat-send-btn">↑</button></div>
           </div>
-
           <div class="cs-metrics">
             <div class="cs-mc"><div class="cs-mc-n">98.2%</div><div class="cs-mc-l">Resolution Rate</div></div>
             <div class="cs-mc"><div class="cs-mc-n">0.8s</div><div class="cs-mc-l">Avg Response</div></div>
@@ -1683,42 +953,17 @@ footer {
             <div class="cs-mc"><div class="cs-mc-n">32%</div><div class="cs-mc-l">Cost Reduction</div></div>
           </div>
         </div>
-
-        <!-- Copy right -->
-        <div>
-          <div class="eyebrow" style="color:var(--indigo);">
-            <span style="background:var(--indigo);"></span>
-            CareStream by Zenerly
+        <div class="cs-copy">
+          <div class="eyebrow" style="color:var(--indigo)"><span style="background:var(--indigo)"></span>CareStream by Zenerly</div>
+          <h2 class="section-title">AI that actually <em style="font-family:var(--ff-b);font-style:italic;font-weight:300;color:var(--indigo)">cares</em></h2>
+          <p class="section-body" style="margin-bottom:22px">CareStream understands context, detects customer sentiment in real time, and resolves issues before they escalate — across chat, voice, and email, in any language.</p>
+          <p class="section-body" style="margin-bottom:28px">Built on Zenerly's unified data model, CareStream instantly surfaces HR records, billing history, and compliance status — no tab-switching.</p>
+          <div style="margin-bottom:28px">
+            <div class="cs-point"><div class="cs-point-dot"></div><div><div class="cs-point-title">Intelligent routing & escalation</div><div class="cs-point-body">Sentiment scoring ensures the right cases reach the right agents — every time.</div></div></div>
+            <div class="cs-point"><div class="cs-point-dot"></div><div><div class="cs-point-title">Continuous learning</div><div class="cs-point-body">Every resolved conversation trains the model — CareStream gets smarter with each interaction.</div></div></div>
+            <div class="cs-point"><div class="cs-point-dot"></div><div><div class="cs-point-title">Multilingual by default</div><div class="cs-point-body">40+ languages natively — no configuration required for global teams.</div></div></div>
           </div>
-          <h2 class="section-title">AI that actually <em style="font-family:var(--ff-body);font-style:italic;font-weight:300;color:var(--indigo);">cares</em></h2>
-          <p class="section-body" style="margin-bottom:26px;">CareStream understands context, detects customer sentiment in real time, and resolves issues before they escalate — across chat, voice, and email, in any language.</p>
-          <p class="section-body" style="margin-bottom:32px;">Built on Zenerly's unified data model, CareStream instantly surfaces HR records, billing history, and compliance status — no tab-switching.</p>
-          <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:32px;">
-            <div style="display:flex;gap:12px;">
-              <div style="width:7px;height:7px;border-radius:50%;background:var(--indigo);flex-shrink:0;margin-top:6px;"></div>
-              <div>
-                <div style="font-family:var(--ff-head);font-size:0.9rem;font-weight:700;color:var(--ink);margin-bottom:3px;">Intelligent routing & escalation</div>
-                <div style="font-family:var(--ff-body);font-size:0.83rem;color:var(--ink-3);">Sentiment scoring ensures the right cases reach the right agents — every time.</div>
-              </div>
-            </div>
-            <div style="display:flex;gap:12px;">
-              <div style="width:7px;height:7px;border-radius:50%;background:var(--indigo);flex-shrink:0;margin-top:6px;"></div>
-              <div>
-                <div style="font-family:var(--ff-head);font-size:0.9rem;font-weight:700;color:var(--ink);margin-bottom:3px;">Continuous learning</div>
-                <div style="font-family:var(--ff-body);font-size:0.83rem;color:var(--ink-3);">Every resolved conversation trains the model — CareStream gets smarter with each interaction.</div>
-              </div>
-            </div>
-            <div style="display:flex;gap:12px;">
-              <div style="width:7px;height:7px;border-radius:50%;background:var(--indigo);flex-shrink:0;margin-top:6px;"></div>
-              <div>
-                <div style="font-family:var(--ff-head);font-size:0.9rem;font-weight:700;color:var(--ink);margin-bottom:3px;">Multilingual by default</div>
-                <div style="font-family:var(--ff-body);font-size:0.83rem;color:var(--ink-3);">40+ languages natively — no configuration required for global teams.</div>
-              </div>
-            </div>
-          </div>
-          <button class="btn btn-outline btn-lg" style="border-color:var(--indigo-border);color:var(--indigo);">
-            Explore CareStream <span class="arrow-i">→</span>
-          </button>
+          <button class="btn btn-outline btn-lg btn-full" style="border-color:var(--indigo-bdr);color:var(--indigo)">Explore CareStream <span class="arrow-i">→</span></button>
         </div>
       </div>
     </div>
@@ -1730,81 +975,35 @@ footer {
       <div class="eyebrow">Why Zenerly</div>
       <h2 class="section-title">Built different. For a reason.</h2>
       <div class="why-grid">
-        <div class="why-card">
-          <div class="why-num">01 ——</div>
-          <h4>Unified Data Model</h4>
-          <p>One source of truth across HR, customer service, and tax — no integrations to maintain, no data drift.</p>
-        </div>
-        <div class="why-card">
-          <div class="why-num">02 ——</div>
-          <h4>Country-Aware by Design</h4>
-          <p>Payroll rules, tax codes, and labour law requirements auto-configured for every jurisdiction across 18 countries.</p>
-        </div>
-        <div class="why-card">
-          <div class="why-num">03 ——</div>
-          <h4>Enterprise-Grade Security</h4>
-          <p>SOC 2 Type II certified, end-to-end encrypted, SSO, RBAC, and full audit trails included from day one.</p>
-        </div>
-        <div class="why-card">
-          <div class="why-num">04 ——</div>
-          <h4>Open API Ecosystem</h4>
-          <p>150+ pre-built connectors for ERP, CRM, accounting, and identity providers — or build with our REST API.</p>
-        </div>
+        <div class="why-card"><div class="why-num">01 ——</div><h4>Unified Data Model</h4><p>One source of truth across HR, customer service, and tax — no integrations to maintain, no data drift.</p></div>
+        <div class="why-card"><div class="why-num">02 ——</div><h4>Country-Aware by Design</h4><p>Payroll rules, tax codes, and labour law requirements auto-configured for every jurisdiction across 18 countries.</p></div>
+        <div class="why-card"><div class="why-num">03 ——</div><h4>Enterprise-Grade Security</h4><p>SOC 2 Type II certified, end-to-end encrypted, SSO, RBAC, and full audit trails included from day one.</p></div>
+        <div class="why-card"><div class="why-num">04 ——</div><h4>Open API Ecosystem</h4><p>150+ pre-built connectors for ERP, CRM, accounting, and identity providers — or build with our REST API.</p></div>
       </div>
     </div>
   </section>
 
   <!-- TESTIMONIALS -->
-  <section class="section" style="padding-top:0;">
+  <section class="section" style="padding-top:0">
     <div class="container">
       <div class="eyebrow">Customer Stories</div>
       <h2 class="section-title">Trusted by teams who mean business.</h2>
       <div class="testi-grid">
-        <div class="testi-card">
-          <div class="testi-qmark">"</div>
-          <div class="testi-text">CareStream resolved 94% of our support tickets without a single human agent in the first week. It's not just a chatbot — it actually understands our customers.</div>
-          <div class="testi-author">
-            <div class="testi-av">🧑‍💼</div>
-            <div>
-              <div class="testi-name">Sarah Chen</div>
-              <div class="testi-role">VP Customer Experience · Meridian Group, SG</div>
-            </div>
-          </div>
-        </div>
-        <div class="testi-card">
-          <div class="testi-qmark">"</div>
-          <div class="testi-text">Rolling out payroll across five countries used to take six weeks. With Zenerly HRMS it took two days and zero compliance issues.</div>
-          <div class="testi-author">
-            <div class="testi-av">👩‍💻</div>
-            <div>
-              <div class="testi-name">Priya Nair</div>
-              <div class="testi-role">VP People Ops · Vantara Health, IN</div>
-            </div>
-          </div>
-        </div>
-        <div class="testi-card">
-          <div class="testi-qmark">"</div>
-          <div class="testi-text">Our auditors asked how we maintain such clean filing records across four jurisdictions. The answer is Zenerly's tax compliance module — genuinely remarkable.</div>
-          <div class="testi-author">
-            <div class="testi-av">🧑‍⚖️</div>
-            <div>
-              <div class="testi-name">Marcus Webb</div>
-              <div class="testi-role">CFO · Ashford Bank, UK</div>
-            </div>
-          </div>
-        </div>
+        <div class="testi-card"><div class="testi-qmark">"</div><div class="testi-text">CareStream resolved 94% of our support tickets without a single human agent in the first week. It's not just a chatbot — it actually understands our customers.</div><div class="testi-author"><div class="testi-av">🧑‍💼</div><div><div class="testi-name">Sarah Chen</div><div class="testi-role">VP CX · Meridian Group, SG</div></div></div></div>
+        <div class="testi-card"><div class="testi-qmark">"</div><div class="testi-text">Rolling out payroll across five countries used to take six weeks. With Zenerly HRMS it took two days and zero compliance issues.</div><div class="testi-author"><div class="testi-av">👩‍💻</div><div><div class="testi-name">Priya Nair</div><div class="testi-role">VP People Ops · Vantara Health, IN</div></div></div></div>
+        <div class="testi-card"><div class="testi-qmark">"</div><div class="testi-text">Our auditors asked how we maintain such clean filing records across four jurisdictions. The answer is Zenerly's tax compliance module — genuinely remarkable.</div><div class="testi-author"><div class="testi-av">🧑‍⚖️</div><div><div class="testi-name">Marcus Webb</div><div class="testi-role">CFO · Ashford Bank, UK</div></div></div></div>
       </div>
     </div>
   </section>
 
-  <!-- CTA BAND -->
-  <div class="container" id="cta-section">
+  <!-- CTA -->
+  <div class="container">
     <div class="cta-band">
-      <h2>Ready to simplify your entire operations stack?</h2>
+      <h2>Ready to simplify your operations stack?</h2>
       <p>Get a personalised demo tailored to your industry and geography — in 30 minutes.</p>
       <div class="cta-actions">
-        <button class="btn btn-white btn-lg" onclick="goPage('contact')">Book a Demo <span class="arrow-i">→</span></button>
-        <button class="btn btn-lg" style="background:rgba(255,255,255,0.15);color:#fff;border:1.5px solid rgba(255,255,255,0.3);" onclick="goPage('pricing')">View HRMS Pricing</button>
+        <button class="btn btn-white btn-lg btn-full" onclick="goPage('contact')">Book a Demo <span class="arrow-i">→</span></button>
+        <button class="btn btn-ghost-light btn-lg btn-full" onclick="goPage('pricing')">View HRMS Pricing</button>
       </div>
     </div>
   </div>
@@ -1813,63 +1012,48 @@ footer {
   <footer>
     <div class="container">
       <div class="footer-grid">
-        <div>
-          <div class="footer-brand-name">
-            <div class="nav-logo-mark" style="width:26px;height:26px;font-size:0.72rem;">Z</div>
-            Zenerly
+        <div class="footer-brand">
+          <div class="footer-brand-name"><div class="nav-logo-mark" style="width:26px;height:26px;font-size:0.72rem">Z</div>Zenerly</div>
+          <p class="footer-brand-desc">Cloud-native HRMS, AI customer service (CareStream), and tax compliance for enterprises across 18 countries.</p>
+        </div>
+        <div class="footer-cols-grid">
+          <div class="footer-col">
+            <h5>Product</h5>
+            <ul>
+              <li><a>HRMS</a></li><li><a>CareStream</a></li><li><a>Tax Compliance</a></li>
+              <li><a onclick="goPage('pricing')">Pricing</a></li><li><a>Integrations</a></li>
+            </ul>
           </div>
-          <p class="footer-brand-desc">Cloud-native HRMS, AI customer service (CareStream), and tax compliance — for enterprises across 18 countries.</p>
-        </div>
-        <div class="footer-col">
-          <h5>Product</h5>
-          <ul>
-            <li><a>HRMS</a></li>
-            <li><a>CareStream</a></li>
-            <li><a>Tax Compliance</a></li>
-            <li><a onclick="goPage('pricing')">Pricing</a></li>
-            <li><a>Integrations</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Company</h5>
-          <ul>
-            <li><a>About Us</a></li>
-            <li><a>Careers</a></li>
-            <li><a>Press</a></li>
-            <li><a>Blog</a></li>
-            <li><a onclick="goPage('contact')" style="color:var(--teal-light);">Contact Us</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Legal</h5>
-          <ul>
-            <li><a>Privacy Policy</a></li>
-            <li><a>Terms of Service</a></li>
-            <li><a>Security</a></li>
-            <li><a>GDPR</a></li>
-          </ul>
+          <div class="footer-col">
+            <h5>Company</h5>
+            <ul>
+              <li><a>About Us</a></li><li><a>Careers</a></li><li><a>Press</a></li><li><a>Blog</a></li>
+              <li><a onclick="goPage('contact')" style="color:var(--teal-light)">Contact Us</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5>Legal</h5>
+            <ul><li><a>Privacy Policy</a></li><li><a>Terms of Service</a></li><li><a>Security</a></li><li><a>GDPR</a></li></ul>
+          </div>
         </div>
       </div>
       <div class="footer-bottom">
         <span class="footer-copy">© 2025 Zenerly Pte. Ltd. All rights reserved.</span>
-        <span class="footer-copy">Singapore · London · Mumbai · Kuala Lumpur · Dubai</span>
+        <span class="footer-copy">Singapore · London · Mumbai · KL · Dubai</span>
       </div>
     </div>
   </footer>
-
 </div><!-- /page-home -->
 
-<!-- ══════════════════════════════════
+<!-- ════════════════════════════════════════
      PRICING PAGE
-══════════════════════════════════════ -->
+════════════════════════════════════════ -->
 <div class="page" id="page-pricing">
-
   <div class="pricing-hero">
-    <div class="container" style="position:relative;z-index:2;">
+    <div class="container" style="position:relative;z-index:2">
       <div class="ph-eyebrow">HRMS Pricing</div>
-      <h1>Transparent pricing,<br><em style="font-family:var(--ff-body);font-style:italic;font-weight:300;color:var(--teal);">everywhere you operate.</em></h1>
+      <h1>Transparent pricing,<br><em style="font-family:var(--ff-b);font-style:italic;font-weight:300;color:var(--teal)">everywhere you operate.</em></h1>
       <p>Per active employee, per month. Billed annually. Prices shown in your local currency — no surprises.</p>
-
       <div class="sel-wrap">
         <span class="sel-label">Your country</span>
         <select class="country-sel" id="countrySelect" onchange="updatePricing()">
@@ -1885,40 +1069,31 @@ footer {
           <option value="th">🇹🇭 Thailand (THB)</option>
         </select>
       </div>
-      <div class="curr-note" id="currNote">Prices in SGD · All plans include a 30-day free trial · No credit card required</div>
+      <div class="curr-note" id="currNote">Prices in SGD · 30-day free trial · No credit card required</div>
     </div>
   </div>
 
   <div class="container">
+    <div class="plans-grid" id="plansGrid"></div>
 
-    <!-- PLAN CARDS -->
-    <div class="plans-grid" id="plansGrid">
-      <!-- Rendered by JS -->
-    </div>
-
-    <!-- COMPARISON TABLE -->
     <div class="cmp-wrap">
       <h2>Full feature comparison</h2>
+      <p class="tbl-hint">← Swipe to see all columns →</p>
       <div class="tbl-scroll">
         <table class="cmp-table">
           <thead>
-            <tr>
-              <th style="width:42%">Feature</th>
-              <th>Starter</th>
-              <th class="hl">Professional</th>
-              <th>Enterprise</th>
-            </tr>
+            <tr><th style="width:42%">Feature</th><th>Starter</th><th class="hl">Professional</th><th>Enterprise</th></tr>
           </thead>
           <tbody>
             <tr class="cat-row"><td colspan="4">Core HRMS</td></tr>
             <tr><td>Employee records</td><td>Up to 50</td><td class="hl">Up to 500</td><td>Unlimited</td></tr>
-            <tr><td>Payroll — countries</td><td>1</td><td class="hl">Up to 5</td><td>Unlimited</td></tr>
+            <tr><td>Payroll countries</td><td>1</td><td class="hl">Up to 5</td><td>Unlimited</td></tr>
             <tr><td>Leave & attendance</td><td><span class="ck">✓</span></td><td class="hl"><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
             <tr><td>Performance & OKRs</td><td><span class="xx">—</span></td><td class="hl"><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
             <tr><td>Learning & development</td><td><span class="xx">—</span></td><td class="hl">Basic</td><td>Advanced</td></tr>
             <tr><td>Employee self-service app</td><td><span class="ck">✓</span></td><td class="hl"><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
             <tr class="cat-row"><td colspan="4">CareStream AI</td></tr>
-            <tr><td>AI chat & email assistant</td><td>Basic</td><td class="hl">Full AI</td><td>Full AI + Custom Models</td></tr>
+            <tr><td>AI chat & email assistant</td><td>Basic</td><td class="hl">Full AI</td><td>Full AI + Custom</td></tr>
             <tr><td>Sentiment analysis</td><td><span class="xx">—</span></td><td class="hl"><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
             <tr><td>Agent assist overlay</td><td><span class="xx">—</span></td><td class="hl"><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
             <tr><td>Multilingual support</td><td>5 languages</td><td class="hl">40+ languages</td><td>40+ languages</td></tr>
@@ -1936,355 +1111,80 @@ footer {
       </div>
     </div>
 
-    <!-- FAQ -->
     <div class="faq-wrap">
       <h2>Common questions</h2>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">How is per-employee pricing calculated?</div>
-        <div class="faq-a">Pricing is based on active employees — anyone on payroll or tracked within Zenerly in a given month. Deactivated or offboarded employees are never counted in your bill.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">Can I manage multiple countries from one account?</div>
-        <div class="faq-a">Yes. Starter supports one payroll jurisdiction. Professional supports up to 5 countries. Enterprise supports unlimited countries with full local law and tax compliance auto-configured.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">Is CareStream included in HRMS plans?</div>
-        <div class="faq-a">CareStream is available as an add-on to any HRMS plan or as a standalone product. Bundled pricing is typically 20–30% lower — contact our team for a custom quote.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">Is there a free trial?</div>
-        <div class="faq-a">All plans include a 30-day free trial with full feature access and up to 25 employees. No credit card required — export your data at any time with zero friction.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">What currencies do you invoice in?</div>
-        <div class="faq-a">We invoice in SGD, USD, GBP, AUD, INR, MYR, AED, IDR, PHP, and THB. Prices shown on this page reflect your local currency at the rates locked in at signup.</div>
-      </div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How is per-employee pricing calculated?</div><div class="faq-a">Pricing is based on active employees — anyone on payroll or tracked within Zenerly in a given month. Deactivated or offboarded employees are never counted.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I manage multiple countries from one account?</div><div class="faq-a">Yes. Starter supports one payroll jurisdiction. Professional supports up to 5 countries. Enterprise supports unlimited countries with full local law and tax compliance auto-configured.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is CareStream included in HRMS plans?</div><div class="faq-a">CareStream is available as an add-on to any HRMS plan or as a standalone product. Bundled pricing is typically 20–30% lower — contact our team for a custom quote.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is there a free trial?</div><div class="faq-a">All plans include a 30-day free trial with full feature access and up to 25 employees. No credit card required — export your data at any time.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What currencies do you invoice in?</div><div class="faq-a">We invoice in SGD, USD, GBP, AUD, INR, MYR, AED, IDR, PHP, and THB. Prices shown on this page reflect your local currency at rates locked in at signup.</div></div>
     </div>
 
-    <!-- CTA -->
     <div class="cta-band">
       <h2>Not sure which plan fits?</h2>
       <p>Talk to our team and get a custom quote tailored to your headcount, countries, and modules.</p>
       <div class="cta-actions">
-        <button class="btn btn-white btn-lg">Talk to Sales <span class="arrow-i">→</span></button>
-        <button class="btn btn-lg" style="background:rgba(255,255,255,0.15);color:#fff;border:1.5px solid rgba(255,255,255,0.3);" onclick="goPage('home')">← Back to Home</button>
+        <button class="btn btn-white btn-lg btn-full" onclick="goPage('contact')">Talk to Sales <span class="arrow-i">→</span></button>
+        <button class="btn btn-ghost-light btn-lg btn-full" onclick="goPage('home')">← Back to Home</button>
       </div>
     </div>
   </div>
 
-  <!-- FOOTER (Pricing) -->
   <footer>
     <div class="container">
       <div class="footer-grid">
-        <div>
-          <div class="footer-brand-name">
-            <div class="nav-logo-mark" style="width:26px;height:26px;font-size:0.72rem;">Z</div>
-            Zenerly
-          </div>
-          <p class="footer-brand-desc">Cloud-native HRMS, CareStream AI, and tax compliance for enterprises across 18 countries.</p>
+        <div class="footer-brand">
+          <div class="footer-brand-name"><div class="nav-logo-mark" style="width:26px;height:26px;font-size:0.72rem">Z</div>Zenerly</div>
+          <p class="footer-brand-desc">Cloud-native HRMS, CareStream AI, and tax compliance across 18 countries.</p>
         </div>
-        <div class="footer-col">
-          <h5>Product</h5>
-          <ul>
-            <li><a>HRMS</a></li>
-            <li><a>CareStream</a></li>
-            <li><a>Tax Compliance</a></li>
-            <li><a onclick="goPage('pricing')">Pricing</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Company</h5>
-          <ul>
-            <li><a>About</a></li>
-            <li><a>Careers</a></li>
-            <li><a>Blog</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Legal</h5>
-          <ul>
-            <li><a>Privacy</a></li>
-            <li><a>Terms</a></li>
-            <li><a>Security</a></li>
-          </ul>
+        <div class="footer-cols-grid">
+          <div class="footer-col"><h5>Product</h5><ul><li><a>HRMS</a></li><li><a>CareStream</a></li><li><a>Tax Compliance</a></li><li><a onclick="goPage('pricing')">Pricing</a></li></ul></div>
+          <div class="footer-col"><h5>Company</h5><ul><li><a>About</a></li><li><a>Careers</a></li><li><a>Blog</a></li><li><a onclick="goPage('contact')" style="color:var(--teal-light)">Contact Us</a></li></ul></div>
+          <div class="footer-col"><h5>Legal</h5><ul><li><a>Privacy</a></li><li><a>Terms</a></li><li><a>Security</a></li></ul></div>
         </div>
       </div>
       <div class="footer-bottom">
-        <span class="footer-copy">© 2025 Zenerly Pte. Ltd. All rights reserved.</span>
-        <span class="footer-copy" onclick="goPage('home')" style="cursor:pointer;color:var(--teal-light);">← Back to Home</span>
+        <span class="footer-copy">© 2025 Zenerly Pte. Ltd.</span>
+        <span class="footer-copy" onclick="goPage('home')" style="cursor:pointer;color:var(--teal-light)">← Back to Home</span>
       </div>
     </div>
   </footer>
-
 </div><!-- /page-pricing -->
 
-<script>
-/* ─── PAGE NAVIGATION ─── */
-function goPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'instant' });
-  closeDrawer();
-}
-
-function jumpTo(id) {
-  goPage('home');
-  setTimeout(() => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 80);
-}
-
-/* ─── MOBILE DRAWER ─── */
-function toggleDrawer() {
-  document.getElementById('drawer').classList.toggle('open');
-  document.getElementById('hamburger').classList.toggle('open');
-}
-function closeDrawer() {
-  document.getElementById('drawer').classList.remove('open');
-  document.getElementById('hamburger').classList.remove('open');
-}
-
-/* ─── FAQ ─── */
-function toggleFaq(el) { el.classList.toggle('open'); }
-
-/* ─── PRICING DATA ─── */
-const pricingData = {
-  sg: { sym: 'S$', curr: 'SGD', note: 'Prices in SGD · 30-day free trial · No credit card required', starter: 8,   pro: 18 },
-  us: { sym: '$',  curr: 'USD', note: 'Prices in USD · 30-day free trial · No credit card required', starter: 6,   pro: 14 },
-  gb: { sym: '£',  curr: 'GBP', note: 'Prices in GBP · 30-day free trial · No credit card required', starter: 5,   pro: 11 },
-  in: { sym: '₹',  curr: 'INR', note: 'Prices in INR · 30-day free trial · No credit card required', starter: 499, pro: 1199 },
-  my: { sym: 'RM', curr: 'MYR', note: 'Prices in MYR · 30-day free trial · No credit card required', starter: 28,  pro: 65 },
-  au: { sym: 'A$', curr: 'AUD', note: 'Prices in AUD · 30-day free trial · No credit card required', starter: 9,   pro: 22 },
-  ae: { sym: 'د.إ',curr: 'AED', note: 'Prices in AED · 30-day free trial · No credit card required', starter: 22,  pro: 52 },
-  id: { sym: 'Rp', curr: 'IDR', note: 'Prices in IDR · 30-day free trial · No credit card required', starter: '95k', pro: '225k' },
-  ph: { sym: '₱',  curr: 'PHP', note: 'Prices in PHP · 30-day free trial · No credit card required', starter: 335, pro: 785 },
-  th: { sym: '฿',  curr: 'THB', note: 'Prices in THB · 30-day free trial · No credit card required', starter: 220, pro: 510 },
-};
-
-const planDefs = [
-  {
-    key: 'starter', tier: 'Starter', featured: false,
-    tagline: 'For small teams getting organised',
-    note: 'Up to 50 employees',
-    features: [
-      'Single country payroll & tax',
-      'Leave, attendance & shift management',
-      'Employee self-service app',
-      'Basic CareStream AI chat (5 languages)',
-      'Single-jurisdiction tax compliance',
-      'Email support · 99.5% SLA',
-    ]
-  },
-  {
-    key: 'pro', tier: 'Professional', featured: true,
-    tagline: 'For growing companies scaling across borders',
-    note: 'Up to 500 employees',
-    features: [
-      'Up to 5-country payroll & tax',
-      'Performance management & OKR tracking',
-      'Full CareStream AI — chat, voice & email',
-      'Sentiment analysis & smart escalation',
-      'Multi-framework tax compliance',
-      'SSO / SAML + Full API access',
-      'Priority support (24hr) · 99.9% SLA',
-    ]
-  },
-  {
-    key: 'enterprise', tier: 'Enterprise', featured: false,
-    tagline: 'For large organisations with complex, global needs',
-    note: 'Unlimited employees & countries',
-    features: [
-      'Unlimited payroll countries',
-      'Custom CareStream AI models',
-      'Dedicated compliance officer',
-      '10-year audit trail retention',
-      'Dedicated Customer Success Manager',
-      'On-premise deployment option',
-      '99.97% SLA guarantee',
-    ]
-  },
-];
-
-function updatePricing() {
-  const key = document.getElementById('countrySelect').value;
-  const d   = pricingData[key];
-  document.getElementById('currNote').textContent = d.note;
-
-  document.getElementById('plansGrid').innerHTML = planDefs.map(p => {
-    const isEnt    = p.key === 'enterprise';
-    const price    = isEnt ? 'Custom' : d[p.key];
-    const showSym  = !isEnt;
-
-    return `
-    <div class="plan-card ${p.featured ? 'featured' : ''}">
-      ${p.featured ? '<div class="plan-badge">Most Popular</div>' : ''}
-      <div class="plan-tier">${p.tier}</div>
-      <div class="plan-tagline">${p.tagline}</div>
-      <div class="plan-price-row">
-        ${showSym ? `<span class="plan-sym">${d.sym}</span>` : ''}
-        <span class="plan-amt">${price}</span>
-        ${showSym ? '<span class="plan-per">/emp/mo</span>' : ''}
-      </div>
-      <div class="plan-note-sub">${p.note}</div>
-      <hr class="plan-div">
-      <ul class="plan-feats">
-        ${p.features.map(f => `<li><span class="feat-tick">✓</span>${f}</li>`).join('')}
-      </ul>
-      ${p.featured
-        ? `<button class="plan-btn pb-teal">Start Free Trial</button>`
-        : isEnt
-          ? `<button class="plan-btn pb-ghost">Contact Sales</button>`
-          : `<button class="plan-btn pb-outline">Start Free Trial</button>`
-      }
-    </div>`;
-  }).join('');
-}
-
-// Initialise pricing on load
-updatePricing();
-
-/* ─── CONTACT FORM ─── */
-// EmailJS — uses the free public API (no server needed)
-// To activate real email delivery:
-// 1. Sign up free at https://www.emailjs.com
-// 2. Create a service (e.g. Gmail) and note your SERVICE_ID
-// 3. Create an email template and note your TEMPLATE_ID
-// 4. Copy your PUBLIC_KEY from Account > API Keys
-// 5. Replace the three placeholders below
-const EJS_SERVICE  = 'service_p6lu4um';   // e.g. 'service_abc123'
-const EJS_TEMPLATE = 'template_ea1ewva';  // e.g. 'template_xyz789'
-const EJS_PUB_KEY  = 'dnQ1Wt3nCo6fkjaov';   // e.g. 'aBcDeFgHiJkLmNoP'
-
-function submitContactForm(e) {
-  e.preventDefault();
-  const form    = document.getElementById('contactForm');
-  const btn     = document.getElementById('cf-submit-btn');
-  const spinner = document.getElementById('cf-spinner');
-  const toastOk = document.getElementById('cf-toast-ok');
-  const toastErr= document.getElementById('cf-toast-err');
-
-  // Basic validation
-  const required = form.querySelectorAll('[required]');
-  let valid = true;
-  required.forEach(f => {
-    f.style.borderColor = '';
-    if (!f.value.trim()) {
-      f.style.borderColor = '#ef4444';
-      f.style.boxShadow   = '0 0 0 3px rgba(239,68,68,0.12)';
-      valid = false;
-    }
-  });
-  if (!document.getElementById('cf-consent').checked) {
-    document.getElementById('cf-consent').style.outline = '2px solid #ef4444';
-    valid = false;
-  }
-  if (!valid) return;
-
-  // Show loading state
-  btn.disabled = true;
-  btn.querySelector('.btn-text').style.display = 'none';
-  spinner.style.display = 'block';
-  toastOk.classList.remove('show');
-  toastErr.classList.remove('show');
-
-  // Build template params matching your EmailJS template variables
-  const params = {
-    to_email:    'sales@zenerly.com',
-    from_name:   document.getElementById('cf-fname').value.trim() + ' ' + document.getElementById('cf-lname').value.trim(),
-    from_email:  document.getElementById('cf-email').value.trim(),
-    company:     document.getElementById('cf-company').value.trim(),
-    phone:       document.getElementById('cf-phone').value.trim() || 'Not provided',
-    interest:    document.getElementById('cf-interest').value,
-    employees:   document.getElementById('cf-employees').value,
-    country:     document.getElementById('cf-country').value.trim(),
-    message:     document.getElementById('cf-message').value.trim(),
-    reply_to:    document.getElementById('cf-email').value.trim(),
-  };
-
-  // Send via EmailJS
-  emailjs.send(EJS_SERVICE, EJS_TEMPLATE, params, EJS_PUB_KEY)
-    .then(() => {
-      btn.disabled = false;
-      btn.querySelector('.btn-text').style.display = '';
-      spinner.style.display = 'none';
-      toastOk.classList.add('show');
-      form.reset();
-    })
-    .catch((err) => {
-      console.error('EmailJS error:', err);
-      btn.disabled = false;
-      btn.querySelector('.btn-text').style.display = '';
-      spinner.style.display = 'none';
-      toastErr.classList.add('show');
-    });
-}
-</script>
-
-<!-- EmailJS SDK (loads async, no delay to page) -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" async></script>
-<script>
-  window.addEventListener('load', () => {
-    if (typeof emailjs !== 'undefined') {
-      emailjs.init({ publicKey: 'YOUR_PUBLIC_KEY' });
-    }
-  });
-</script>
-
-<!-- ══════════════════════════════════
+<!-- ════════════════════════════════════════
      CONTACT PAGE
-══════════════════════════════════════ -->
+════════════════════════════════════════ -->
 <div class="page contact-page" id="page-contact">
-
-  <!-- Hero -->
   <div class="contact-hero">
-    <div class="container" style="position:relative;z-index:2;">
+    <div class="container" style="position:relative;z-index:2">
       <div class="contact-hero-eyebrow">Get In Touch</div>
-      <h1>Let's talk about<br><em style="font-family:var(--ff-body);font-style:italic;font-weight:300;color:var(--teal);">your business.</em></h1>
-      <p>Whether you're evaluating HRMS, exploring CareStream, or need tax compliance help — our team is ready to build the right solution with you.</p>
+      <h1>Let's talk about<br><em style="font-family:var(--ff-b);font-style:italic;font-weight:300;color:var(--teal)">your business.</em></h1>
+      <p>Whether evaluating HRMS, exploring CareStream, or needing tax compliance help — our team is ready to build the right solution with you.</p>
     </div>
   </div>
 
-  <!-- Body -->
   <div class="contact-body">
     <div class="container">
       <div class="contact-grid">
-
-        <!-- Left: info cards -->
+        <!-- Info cards -->
         <div class="contact-info-panel">
-
           <div class="contact-info-card">
-            <div class="contact-info-card-header">
-              <div class="cic-icon">✉️</div>
-              <div class="cic-title">Sales Enquiries</div>
-            </div>
+            <div class="cic-hdr"><div class="cic-icon">✉️</div><div class="cic-title">Sales Enquiries</div></div>
             <div class="cic-body">Ready to get started or need a custom quote? Reach our sales team directly.</div>
             <a class="cic-link" href="mailto:sales@zenerly.com">sales@zenerly.com</a>
           </div>
-
           <div class="contact-info-card">
-            <div class="contact-info-card-header">
-              <div class="cic-icon">🛠️</div>
-              <div class="cic-title">Technical Support</div>
-            </div>
+            <div class="cic-hdr"><div class="cic-icon">🛠️</div><div class="cic-title">Technical Support</div></div>
             <div class="cic-body">Existing customer? Our support team is available 24/7 for Professional and Enterprise plans.</div>
             <a class="cic-link" href="mailto:support@zenerly.com">support@zenerly.com</a>
           </div>
-
           <div class="contact-info-card">
-            <div class="contact-info-card-header">
-              <div class="cic-icon">🤝</div>
-              <div class="cic-title">Partnerships</div>
-            </div>
+            <div class="cic-hdr"><div class="cic-icon">🤝</div><div class="cic-title">Partnerships</div></div>
             <div class="cic-body">Interested in becoming a Zenerly partner or reseller? Let's explore the opportunity.</div>
             <a class="cic-link" href="mailto:partners@zenerly.com">partners@zenerly.com</a>
           </div>
-
           <div class="contact-info-card">
-            <div class="contact-info-card-header">
-              <div class="cic-icon">🌏</div>
-              <div class="cic-title">Our Offices</div>
-            </div>
+            <div class="cic-hdr"><div class="cic-icon">🌏</div><div class="cic-title">Our Offices</div></div>
             <div class="contact-offices">
               <div class="office-row"><span class="office-flag">🇸🇬</span><span class="office-name">Singapore (HQ)</span></div>
               <div class="office-row"><span class="office-flag">🇬🇧</span><span class="office-name">London, UK</span></div>
@@ -2293,43 +1193,22 @@ function submitContactForm(e) {
               <div class="office-row"><span class="office-flag">🇦🇪</span><span class="office-name">Dubai, UAE</span></div>
             </div>
           </div>
-
         </div>
 
-        <!-- Right: contact form -->
+        <!-- Contact form -->
         <div class="contact-form-card">
           <div class="cf-title">Send us a message</div>
           <div class="cf-sub">Fill in the form and our sales team will get back to you within one business day.</div>
-
           <form id="contactForm" onsubmit="submitContactForm(event)" novalidate>
-
             <div class="cf-row">
-              <div class="cf-group">
-                <label class="cf-label" for="cf-fname">First Name <span class="cf-required">*</span></label>
-                <input class="cf-input" id="cf-fname" type="text" placeholder="Sarah" required autocomplete="given-name">
-              </div>
-              <div class="cf-group">
-                <label class="cf-label" for="cf-lname">Last Name <span class="cf-required">*</span></label>
-                <input class="cf-input" id="cf-lname" type="text" placeholder="Chen" required autocomplete="family-name">
-              </div>
+              <div class="cf-group"><label class="cf-label" for="cf-fname">First Name <span class="cf-required">*</span></label><input class="cf-input" id="cf-fname" type="text" placeholder="Sarah" required autocomplete="given-name"></div>
+              <div class="cf-group"><label class="cf-label" for="cf-lname">Last Name <span class="cf-required">*</span></label><input class="cf-input" id="cf-lname" type="text" placeholder="Chen" required autocomplete="family-name"></div>
             </div>
-
             <div class="cf-row">
-              <div class="cf-group">
-                <label class="cf-label" for="cf-email">Work Email <span class="cf-required">*</span></label>
-                <input class="cf-input" id="cf-email" type="email" placeholder="sarah@company.com" required autocomplete="email">
-              </div>
-              <div class="cf-group">
-                <label class="cf-label" for="cf-phone">Phone Number</label>
-                <input class="cf-input" id="cf-phone" type="tel" placeholder="+65 9123 4567" autocomplete="tel">
-              </div>
+              <div class="cf-group"><label class="cf-label" for="cf-email">Work Email <span class="cf-required">*</span></label><input class="cf-input" id="cf-email" type="email" placeholder="sarah@company.com" required autocomplete="email"></div>
+              <div class="cf-group"><label class="cf-label" for="cf-phone">Phone Number</label><input class="cf-input" id="cf-phone" type="tel" placeholder="+65 9123 4567" autocomplete="tel"></div>
             </div>
-
-            <div class="cf-group">
-              <label class="cf-label" for="cf-company">Company Name <span class="cf-required">*</span></label>
-              <input class="cf-input" id="cf-company" type="text" placeholder="Meridian Group Pte Ltd" required autocomplete="organization">
-            </div>
-
+            <div class="cf-group"><label class="cf-label" for="cf-company">Company Name <span class="cf-required">*</span></label><input class="cf-input" id="cf-company" type="text" placeholder="Meridian Group Pte Ltd" required autocomplete="organization"></div>
             <div class="cf-row">
               <div class="cf-group">
                 <label class="cf-label" for="cf-interest">I'm Interested In <span class="cf-required">*</span></label>
@@ -2347,104 +1226,168 @@ function submitContactForm(e) {
                 <label class="cf-label" for="cf-employees">Company Size <span class="cf-required">*</span></label>
                 <select class="cf-select" id="cf-employees" required>
                   <option value="" disabled selected>Number of employees…</option>
-                  <option value="1–10">1–10 employees</option>
-                  <option value="11–50">11–50 employees</option>
-                  <option value="51–200">51–200 employees</option>
-                  <option value="201–500">201–500 employees</option>
-                  <option value="501–1000">501–1,000 employees</option>
-                  <option value="1000+">1,000+ employees</option>
+                  <option value="1–10">1–10</option>
+                  <option value="11–50">11–50</option>
+                  <option value="51–200">51–200</option>
+                  <option value="201–500">201–500</option>
+                  <option value="501–1000">501–1,000</option>
+                  <option value="1000+">1,000+</option>
                 </select>
               </div>
             </div>
-
-            <div class="cf-group">
-              <label class="cf-label" for="cf-country">Country / Region <span class="cf-required">*</span></label>
-              <input class="cf-input" id="cf-country" type="text" placeholder="e.g. Singapore" required autocomplete="country-name">
-            </div>
-
-            <div class="cf-group">
-              <label class="cf-label" for="cf-message">Tell Us About Your Needs <span class="cf-required">*</span></label>
-              <textarea class="cf-textarea" id="cf-message" placeholder="Briefly describe what you're looking to solve, your timeline, and any specific requirements…" required></textarea>
-            </div>
-
+            <div class="cf-group"><label class="cf-label" for="cf-country">Country / Region <span class="cf-required">*</span></label><input class="cf-input" id="cf-country" type="text" placeholder="e.g. Singapore" required autocomplete="country-name"></div>
+            <div class="cf-group"><label class="cf-label" for="cf-message">Tell Us About Your Needs <span class="cf-required">*</span></label><textarea class="cf-textarea" id="cf-message" placeholder="Briefly describe what you're looking to solve, your timeline, and any specific requirements…" required></textarea></div>
             <div class="cf-checkbox-row">
               <input class="cf-checkbox" type="checkbox" id="cf-consent" required>
-              <label class="cf-consent-text" for="cf-consent">
-                I agree to Zenerly's <a href="#">Privacy Policy</a> and consent to being contacted about Zenerly's products and services. You can unsubscribe at any time.
-              </label>
+              <label class="cf-consent-text" for="cf-consent">I agree to Zenerly's <a href="#">Privacy Policy</a> and consent to being contacted about Zenerly's products and services. You can unsubscribe at any time.</label>
             </div>
-
             <button class="cf-submit" id="cf-submit-btn" type="submit">
               <div class="cf-spinner" id="cf-spinner"></div>
               <span class="btn-text">Send Message to Sales Team →</span>
             </button>
-
-            <!-- Success toast -->
-            <div class="cf-toast success" id="cf-toast-ok">
-              <span class="cf-toast-icon">✅</span>
-              <div>
-                <strong>Message sent!</strong> Our sales team at sales@zenerly.com will reply within one business day.
-              </div>
-            </div>
-
-            <!-- Error toast -->
-            <div class="cf-toast error" id="cf-toast-err">
-              <span class="cf-toast-icon">⚠️</span>
-              <div>
-                <strong>Something went wrong.</strong> Please try again or email us directly at <a href="mailto:sales@zenerly.com" style="color:#991b1b;text-decoration:underline;">sales@zenerly.com</a>
-              </div>
-            </div>
-
+            <div class="cf-toast success" id="cf-toast-ok"><span class="cf-toast-icon">✅</span><div><strong>Message sent!</strong> Our sales team at sales@zenerly.com will reply within one business day.</div></div>
+            <div class="cf-toast error" id="cf-toast-err"><span class="cf-toast-icon">⚠️</span><div><strong>Something went wrong.</strong> Please try again or email us at <a href="mailto:sales@zenerly.com" style="color:#991b1b;text-decoration:underline">sales@zenerly.com</a></div></div>
           </form>
-        </div><!-- /contact-form-card -->
-
-      </div><!-- /contact-grid -->
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Footer -->
   <footer>
     <div class="container">
       <div class="footer-grid">
-        <div>
-          <div class="footer-brand-name">
-            <div class="nav-logo-mark" style="width:26px;height:26px;font-size:0.72rem;">Z</div>
-            Zenerly
-          </div>
+        <div class="footer-brand">
+          <div class="footer-brand-name"><div class="nav-logo-mark" style="width:26px;height:26px;font-size:0.72rem">Z</div>Zenerly</div>
           <p class="footer-brand-desc">Cloud-native HRMS, CareStream AI, and tax compliance across 18 countries.</p>
         </div>
-        <div class="footer-col">
-          <h5>Product</h5>
-          <ul>
-            <li><a>HRMS</a></li>
-            <li><a>CareStream</a></li>
-            <li><a>Tax Compliance</a></li>
-            <li><a onclick="goPage('pricing')">Pricing</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Company</h5>
-          <ul>
-            <li><a>About</a></li>
-            <li><a>Careers</a></li>
-            <li><a>Blog</a></li>
-            <li><a onclick="goPage('contact')" style="color:var(--teal-light);">Contact Us</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Legal</h5>
-          <ul>
-            <li><a>Privacy</a></li>
-            <li><a>Terms</a></li>
-            <li><a>Security</a></li>
-          </ul>
+        <div class="footer-cols-grid">
+          <div class="footer-col"><h5>Product</h5><ul><li><a>HRMS</a></li><li><a>CareStream</a></li><li><a>Tax Compliance</a></li><li><a onclick="goPage('pricing')">Pricing</a></li></ul></div>
+          <div class="footer-col"><h5>Company</h5><ul><li><a>About</a></li><li><a>Careers</a></li><li><a>Blog</a></li><li><a onclick="goPage('contact')" style="color:var(--teal-light)">Contact Us</a></li></ul></div>
+          <div class="footer-col"><h5>Legal</h5><ul><li><a>Privacy</a></li><li><a>Terms</a></li><li><a>Security</a></li></ul></div>
         </div>
       </div>
       <div class="footer-bottom">
-        <span class="footer-copy">© 2025 Zenerly Pte. Ltd. All rights reserved.</span>
-        <span class="footer-copy" onclick="goPage('home')" style="cursor:pointer;color:var(--teal-light);">← Back to Home</span>
+        <span class="footer-copy">© 2025 Zenerly Pte. Ltd.</span>
+        <span class="footer-copy" onclick="goPage('home')" style="cursor:pointer;color:var(--teal-light)">← Back to Home</span>
       </div>
     </div>
   </footer>
-
 </div><!-- /page-contact -->
+
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" async></script>
+
+<script>
+/* ── Page routing ── */
+function goPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+  closeDrawer();
+}
+function jumpTo(id){
+  goPage('home');
+  setTimeout(()=>{const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},80);
+}
+
+/* ── Mobile drawer ── */
+function toggleDrawer(){document.getElementById('drawer').classList.toggle('open');document.getElementById('hamburger').classList.toggle('open')}
+function closeDrawer(){document.getElementById('drawer').classList.remove('open');document.getElementById('hamburger').classList.remove('open')}
+
+/* ── FAQ ── */
+function toggleFaq(el){el.classList.toggle('open')}
+
+/* ── Pricing ── */
+const pricingData={
+  sg:{sym:'S$',note:'Prices in SGD · 30-day free trial · No credit card required',starter:8,pro:18},
+  us:{sym:'$',note:'Prices in USD · 30-day free trial · No credit card required',starter:6,pro:14},
+  gb:{sym:'£',note:'Prices in GBP · 30-day free trial · No credit card required',starter:5,pro:11},
+  in:{sym:'₹',note:'Prices in INR · 30-day free trial · No credit card required',starter:499,pro:1199},
+  my:{sym:'RM',note:'Prices in MYR · 30-day free trial · No credit card required',starter:28,pro:65},
+  au:{sym:'A$',note:'Prices in AUD · 30-day free trial · No credit card required',starter:9,pro:22},
+  ae:{sym:'د.إ',note:'Prices in AED · 30-day free trial · No credit card required',starter:22,pro:52},
+  id:{sym:'Rp',note:'Prices in IDR · 30-day free trial · No credit card required',starter:'95k',pro:'225k'},
+  ph:{sym:'₱',note:'Prices in PHP · 30-day free trial · No credit card required',starter:335,pro:785},
+  th:{sym:'฿',note:'Prices in THB · 30-day free trial · No credit card required',starter:220,pro:510},
+};
+const planDefs=[
+  {key:'starter',tier:'Starter',featured:false,tagline:'For small teams getting organised',note:'Up to 50 employees',features:['Single country payroll & tax','Leave, attendance & shift management','Employee self-service app','Basic CareStream AI chat (5 languages)','Single-jurisdiction tax compliance','Email support · 99.5% SLA']},
+  {key:'pro',tier:'Professional',featured:true,tagline:'For growing companies scaling across borders',note:'Up to 500 employees',features:['Up to 5-country payroll & tax','Performance management & OKR tracking','Full CareStream AI — chat, voice & email','Sentiment analysis & smart escalation','Multi-framework tax compliance','SSO / SAML + Full API access','Priority support (24hr) · 99.9% SLA']},
+  {key:'enterprise',tier:'Enterprise',featured:false,tagline:'For large organisations with complex, global needs',note:'Unlimited employees & countries',features:['Unlimited payroll countries','Custom CareStream AI models','Dedicated compliance officer','10-year audit trail retention','Dedicated Customer Success Manager','On-premise deployment option','99.97% SLA guarantee']},
+];
+function updatePricing(){
+  const key=document.getElementById('countrySelect').value;
+  const d=pricingData[key];
+  document.getElementById('currNote').textContent=d.note;
+  document.getElementById('plansGrid').innerHTML=planDefs.map(p=>{
+    const isEnt=p.key==='enterprise';
+    const price=isEnt?'Custom':d[p.key];
+    const showSym=!isEnt;
+    return`<div class="plan-card ${p.featured?'featured':''}">
+      ${p.featured?'<div class="plan-badge">Most Popular</div>':''}
+      <div class="plan-tier">${p.tier}</div>
+      <div class="plan-tagline">${p.tagline}</div>
+      <div class="plan-price-row">
+        ${showSym?`<span class="plan-sym">${d.sym}</span>`:''}
+        <span class="plan-amt">${price}</span>
+        ${showSym?'<span class="plan-per">/emp/mo</span>':''}
+      </div>
+      <div class="plan-note-sub">${p.note}</div>
+      <hr class="plan-div">
+      <ul class="plan-feats">${p.features.map(f=>`<li><span class="feat-tick">✓</span>${f}</li>`).join('')}</ul>
+      ${p.featured?'<button class="plan-btn pb-teal">Start Free Trial</button>':isEnt?'<button class="plan-btn pb-ghost">Contact Sales</button>':'<button class="plan-btn pb-outline">Start Free Trial</button>'}
+    </div>`;
+  }).join('');
+}
+updatePricing();
+
+/* ── EmailJS contact form ── */
+const EJS_SERVICE ='YOUR_SERVICE_ID';
+const EJS_TEMPLATE='YOUR_TEMPLATE_ID';
+const EJS_PUB_KEY ='YOUR_PUBLIC_KEY';
+
+window.addEventListener('load',()=>{if(typeof emailjs!=='undefined')emailjs.init({publicKey:EJS_PUB_KEY})});
+
+function submitContactForm(e){
+  e.preventDefault();
+  const form=document.getElementById('contactForm');
+  const btn=document.getElementById('cf-submit-btn');
+  const spinner=document.getElementById('cf-spinner');
+  const toastOk=document.getElementById('cf-toast-ok');
+  const toastErr=document.getElementById('cf-toast-err');
+  const required=form.querySelectorAll('[required]');
+  let valid=true;
+  required.forEach(f=>{
+    f.style.borderColor='';f.style.boxShadow='';
+    if(f.type==='checkbox'){if(!f.checked){f.style.outline='2px solid #ef4444';valid=false;}}
+    else if(!f.value.trim()){f.style.borderColor='#ef4444';f.style.boxShadow='0 0 0 3px rgba(239,68,68,0.12)';valid=false;}
+  });
+  if(!valid)return;
+  btn.disabled=true;
+  btn.querySelector('.btn-text').style.display='none';
+  spinner.style.display='block';
+  toastOk.classList.remove('show');toastErr.classList.remove('show');
+  const params={
+    to_email:'sales@zenerly.com',
+    from_name:document.getElementById('cf-fname').value.trim()+' '+document.getElementById('cf-lname').value.trim(),
+    from_email:document.getElementById('cf-email').value.trim(),
+    company:document.getElementById('cf-company').value.trim(),
+    phone:document.getElementById('cf-phone').value.trim()||'Not provided',
+    interest:document.getElementById('cf-interest').value,
+    employees:document.getElementById('cf-employees').value,
+    country:document.getElementById('cf-country').value.trim(),
+    message:document.getElementById('cf-message').value.trim(),
+    reply_to:document.getElementById('cf-email').value.trim(),
+  };
+  if(typeof emailjs==='undefined'||EJS_SERVICE==='YOUR_SERVICE_ID'){
+    // Demo mode — simulate success after 1.2s
+    setTimeout(()=>{btn.disabled=false;btn.querySelector('.btn-text').style.display='';spinner.style.display='none';toastOk.classList.add('show');form.reset();},1200);
+    return;
+  }
+  emailjs.send(EJS_SERVICE,EJS_TEMPLATE,params,EJS_PUB_KEY)
+    .then(()=>{btn.disabled=false;btn.querySelector('.btn-text').style.display='';spinner.style.display='none';toastOk.classList.add('show');form.reset();})
+    .catch(err=>{console.error(err);btn.disabled=false;btn.querySelector('.btn-text').style.display='';spinner.style.display='none';toastErr.classList.add('show');});
+}
+</script>
+</body>
+</html>
